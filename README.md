@@ -58,4 +58,7 @@ SELECT
 Survived, test_passenger,
 CONCAT(ROUND((first_name+last_name+sex+age+embarked)/5*100),"%") AS similarity
 FROM data_type
+ORDER BY test_passenger
 ```
+Therefore, we will get the table that we can filter lots of data by the similarity. And, this also form our own predition.
+<img width="659" alt="image" src="https://github.com/ying2829/Kaggle-CaseSturdy/assets/162821565/878bb1c6-06b9-4a56-84e0-d68ca3aa559f">
