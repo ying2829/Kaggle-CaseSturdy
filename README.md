@@ -61,4 +61,5 @@ FROM data_type
 ORDER BY test_passenger
 ```
 Therefore, we will get the table that we can filter lots of data by the similarity. And, this also form our own predition.
-<img width="659" alt="image" src="https://github.com/ying2829/Kaggle-CaseSturdy/assets/162821565/878bb1c6-06b9-4a56-84e0-d68ca3aa559f">
+<img width="659" alt="image" src="https://github.com/ying2829/Kaggle-CaseSturdy/assets/162821565/14279e01-708b-45f6-9b44-5cdbbc3ed8c5">
+
