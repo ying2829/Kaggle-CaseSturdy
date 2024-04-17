@@ -1,5 +1,9 @@
 # Kaggle-CaseSturdy -  Titanic - Machine Learning from Disaster
-Create a view which we can find the similarity via the same ticket number between train and test table. Also, I put the filter about the SibSp and Parch column is o.
+
+Compared to predict the accuracy of the table, I would like to do the other training by using this two tables which is find the similarity. Let's say we supposed that the test table should be identical to the train table. However, someone did it by mistakes, so we need to measure the similarity to predict if the passengers in the test spreadsheet survived or not. So, are you ready? Here we go:
+
+
+Create a view which we can find the similarity via the same ticket number between train and test table. Also, I put the filter about the SibSp and Parch column is 0.
 Becasue I realized that there are lots of family ticket which will miss up the data in the train table.
 ```mysql
 SELECT Ticket,`case-study-titanic.Kaggle_casestudy.train`Survived,`case-study-titanic.Kaggle_casestudy.train`. PassengerId AS train_passenger,`Kaggle_casestudy.test`.PassengerId AS test_passenger,`case-study-titanic.Kaggle_casestudy.train`.Name AS train_name,`Kaggle_casestudy.test`. Name AS test_name, `case-study-titanic.Kaggle_casestudy.train`.Age AS train_age, `Kaggle_casestudy.test`.Age AS test_age,`case-study-titanic.Kaggle_casestudy.train`.sex AS train_sex,`Kaggle_casestudy.test`. sex AS test_sex,`case-study-titanic.Kaggle_casestudy.train`.Embarked AS train_embarked,`Kaggle_casestudy.test`. Embarked AS test_embarked
