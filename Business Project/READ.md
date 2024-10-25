@@ -5,10 +5,14 @@
 # Monthly
 ``` Bigquey
 SELECT 
-    REGEXP_EXTRACT(CAST(date AS STRING),  r'\d+-(\d+)-\d+') AS month, 
-    COUNT(*) AS total_visit
+    REGEXP_EXTRACT(CAST(date AS STRING),  r'(\d+)-\d+-\d+') AS year,REGEXP_EXTRACT(CAST(date AS STRING),  r'\d+-(\d+)-\d+') AS month,
+    COUNT(*) AS total_transactions
 FROM (SELECT * FROM`airbnb_seattle.calendar` WHERE available=FALSE)
-GROUP BY REGEXP_EXTRACT(CAST(date AS STRING), r'\d+-(\d+)-\d+')
-ORDER BY total_visit DESC LIMIT 1
+GROUP BY year,month
+HAVING year="2024"
+ORDER BY total_transactions DESC 
+LIMIT 3
 ```
-![image](https://github.com/user-attachments/assets/1bb7afbf-46ac-4b20-b2f3-82ac491d786a)
+![image](https://github.com/user-attachments/assets/8f520ed8-dd8e-4d16-a711-3dc89ae823c2)
+
+## Price Spike
