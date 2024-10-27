@@ -62,5 +62,39 @@ LIMIT 1
 
 ### Analysis
 Which month is/isn't the most profitable? (The difference between initial price and float price)
+To analyze this question, first, we should eliminate the null price in the listing table because it will mess up the report.
+
+* TOP 5 profitable month
+```Bigquery
+WITH cte AS (SELECT REGEXP_EXTRACT(CAST(calendar.date AS STRING),  r'(\d+)-\d+-\d+') AS year,
+REGEXP_EXTRACT(CAST(calendar.date AS STRING),  r'\d+-(\d+)-\d+') AS month,
+listing_id,calendar.date, `airbnb_seattle.listings`.price AS initial_price,calendar.price AS float_price, 
+FROM (SELECT * FROM`airbnb_seattle.calendar` WHERE available=FALSE) AS calendar
+JOIN `airbnb_seattle.listings` ON calendar.listing_id=`airbnb_seattle.listings`.id)
+SELECT year,month, MIN(ROUND(cte.initial_price - cte.float_price, 2) )AS variance
+FROM cte
+GROUP BY year, month
+HAVING variance IS NOT NULL AND year="2024"
+ORDER BY variance DESC
+LIMIT 5
+```
+![image](https://github.com/user-attachments/assets/648ab4b7-812e-4bf6-af3b-1b9b5fb28652)
+
+* TOP 5 unprofitable month
+```Bigquery
+WITH cte AS (SELECT REGEXP_EXTRACT(CAST(calendar.date AS STRING),  r'(\d+)-\d+-\d+') AS year,
+REGEXP_EXTRACT(CAST(calendar.date AS STRING),  r'\d+-(\d+)-\d+') AS month,
+listing_id,calendar.date, `airbnb_seattle.listings`.price AS initial_price,calendar.price AS float_price, 
+FROM (SELECT * FROM`airbnb_seattle.calendar` WHERE available=FALSE) AS calendar
+JOIN `airbnb_seattle.listings` ON calendar.listing_id=`airbnb_seattle.listings`.id)
+SELECT year,month, MAX(ROUND(cte.initial_price - cte.float_price, 2) )AS variance
+FROM cte
+GROUP BY year, month
+HAVING variance IS NOT NULL AND year="2024"
+ORDER BY variance DESC 
+LIMIT 5
+```
+![image](https://github.com/user-attachments/assets/cbdc4927-26aa-45d9-bddb-54d2b1c9fdf0)
+
 
 In which month is there likely to be the biggest difference between the float price and the initial price?
