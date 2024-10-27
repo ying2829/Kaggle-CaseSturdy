@@ -87,14 +87,15 @@ REGEXP_EXTRACT(CAST(calendar.date AS STRING),  r'\d+-(\d+)-\d+') AS month,
 listing_id,calendar.date, `airbnb_seattle.listings`.price AS initial_price,calendar.price AS float_price, 
 FROM (SELECT * FROM`airbnb_seattle.calendar` WHERE available=FALSE) AS calendar
 JOIN `airbnb_seattle.listings` ON calendar.listing_id=`airbnb_seattle.listings`.id)
-SELECT year,month, MAX(ROUND(cte.initial_price - cte.float_price, 2) )AS variance
+SELECT year,month, MAX(ROUND(cte.initial_price - cte.float_price, 2)) AS variance,
+MAX (CONCAT(ROUND((cte.float_price-cte.initial_price)/cte.initial_price*100, 2),"%")) AS variance_percentage
 FROM cte
-GROUP BY year, month
-HAVING variance IS NOT NULL AND year="2024"
-ORDER BY variance DESC 
+GROUP BY year,month
+ORDER BY variance DESC
 LIMIT 5
 ```
-![image](https://github.com/user-attachments/assets/cbdc4927-26aa-45d9-bddb-54d2b1c9fdf0)
+![image](https://github.com/user-attachments/assets/1dfd1b3a-e71e-4cc6-be37-e4d93f34d000)
 
+f
 
 In which month is there likely to be the biggest difference between the float price and the initial price?
