@@ -61,4 +61,6 @@ LIMIT 1
 ![image](https://github.com/user-attachments/assets/2fb1042a-a67a-4a8d-ac5a-71a8daf70b49)
 
 ### Analysis
-Which month is/n't the most profitable? (The difference between initial price and float price)
+Which month is/isn't the most profitable? (The difference between initial price and float price)
+
+In which month is there likely to be the biggest difference between the float price and the initial price?
