@@ -64,21 +64,23 @@ LIMIT 1
 Which month is/isn't the most profitable? (The difference between initial price and float price)
 To analyze this question, first, we should eliminate the null price in the listing table because it will mess up the report.
 
-* TOP 5 profitable month
+* TOP 3 profitable month
 ```Bigquery
 WITH cte AS (SELECT REGEXP_EXTRACT(CAST(calendar.date AS STRING),  r'(\d+)-\d+-\d+') AS year,
 REGEXP_EXTRACT(CAST(calendar.date AS STRING),  r'\d+-(\d+)-\d+') AS month,
 listing_id,calendar.date, `airbnb_seattle.listings`.price AS initial_price,calendar.price AS float_price, 
 FROM (SELECT * FROM`airbnb_seattle.calendar` WHERE available=FALSE) AS calendar
 JOIN `airbnb_seattle.listings` ON calendar.listing_id=`airbnb_seattle.listings`.id)
-SELECT year,month, MIN(ROUND(cte.initial_price - cte.float_price, 2) )AS variance
+SELECT year,month, MAX(ROUND(cte.float_price-cte.initial_price, 2)) AS variance,
+MAX (CONCAT(ROUND((cte.float_price-cte.initial_price)/cte.initial_price*100, 2),"%")) AS variance_percentage
 FROM cte
-GROUP BY year, month
-HAVING variance IS NOT NULL AND year="2024"
-ORDER BY variance DESC
-LIMIT 5
+GROUP BY year,month
+ORDER BY variance, variance_percentage DESC 
+LIMIT 3
 ```
-![image](https://github.com/user-attachments/assets/648ab4b7-812e-4bf6-af3b-1b9b5fb28652)
+![image](https://github.com/user-attachments/assets/4bb91c18-ae6b-47cd-a4a4-e208957f4f76)
+
+From the table, as you can see that the most profitable months happens in Summer because it indicated a significant price increasing than the one in the lsiting from the variance_
 
 * TOP 5 unprofitable month
 ```Bigquery
