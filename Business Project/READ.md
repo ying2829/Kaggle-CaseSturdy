@@ -165,9 +165,12 @@ LIMIT 3
 * Consistent Decline: There is a clear trend of increasing negative variances over the first half of 2025, with each month showing a worsening situation.
 * Rising Variance Percentages: The variance percentages demonstrate that not only is the performance declining, but the rate of decline is also accelerating.
 
+### Inspiration
 * Compared to the data bwteen June 2024 and June 2025
 
 >[!NOTE]
 >From the raw data, although we have whole year data but it is crossed between 2024 and 2025.
 >The raw data is updated in June which means the major reservation didn't happen yet.
+
+![image](https://github.com/user-attachments/assets/9c1dc434-adde-4199-852f-5e5769316665)
 
