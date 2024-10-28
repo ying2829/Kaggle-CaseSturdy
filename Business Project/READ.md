@@ -64,7 +64,7 @@ LIMIT 1
 Which month is/isn't the most profitable? (The difference between initial price and float price)
 To analyze this question, first, we should eliminate the null price in the listing table because it will mess up the report.
 
-* TOP 3 profitable month
+* TOP 3 profitable month in 2024
 ```Bigquery
 WITH cte AS (SELECT REGEXP_EXTRACT(CAST(calendar.date AS STRING),  r'(\d+)-\d+-\d+') AS year,
 REGEXP_EXTRACT(CAST(calendar.date AS STRING),  r'\d+-(\d+)-\d+') AS month,
@@ -76,29 +76,47 @@ AVG(ROUND(cte.float_price - cte.initial_price, 2)) AS variance,
 AVG(ROUND((cte.float_price - cte.initial_price) / cte.initial_price * 100, 2)) AS variance_percentage
 FROM cte
 GROUP BY year, month
+HAVING year="2024"
 ORDER BY variance DESC
 LIMIT 3
 ```
 ![image](https://github.com/user-attachments/assets/1c31f2b8-50d6-4cd6-8ac7-244675e1317e)
 
-The data from June to August 2024 reveals a remarkable increaseing in the `variance_percentage`, and it all the month are in summer, suggesting a significant ongoing change or instability. For these summer season, 
+**Monthly Comparisons**
 
-* TOP 5 unprofitable month
+* **June**: exhibited the highest variance percentage at 4.16%, indicating that the changes during this month were significant in relation to the overall metric.
+* **July**: experienced the highest variance but a lower percentage, suggesting that while there were larger fluctuations, these may have been in a more stable context compared to June.
+* **August**: saw a slight decline in both variance and variance percentage, indicating a potential stabilization in the measured metric after the fluctuations observed in the earlier months.
+
+**Conclusion**: The analysis of variance and variance percentage from June to August 2024 reveals interesting dynamics in performance. While July showed the largest absolute variance, June had the most significant relative impact. The slight decline in August suggests a potential stabilization following the earlier volatility.
+
+* TOP 3 unprofitable month in 2024
 ```Bigquery
 WITH cte AS (SELECT REGEXP_EXTRACT(CAST(calendar.date AS STRING),  r'(\d+)-\d+-\d+') AS year,
 REGEXP_EXTRACT(CAST(calendar.date AS STRING),  r'\d+-(\d+)-\d+') AS month,
 listing_id,calendar.date, `airbnb_seattle.listings`.price AS initial_price,calendar.price AS float_price, 
 FROM (SELECT * FROM`airbnb_seattle.calendar` WHERE available=FALSE) AS calendar
 JOIN `airbnb_seattle.listings` ON calendar.listing_id=`airbnb_seattle.listings`.id)
-SELECT year,month, MAX(ROUND(cte.initial_price - cte.float_price, 2)) AS variance,
-MAX (CONCAT(ROUND((cte.float_price-cte.initial_price)/cte.initial_price*100, 2),"%")) AS variance_percentage
+SELECT year, month, 
+AVG(ROUND(cte.float_price - cte.initial_price, 2)) AS variance,
+AVG(ROUND((cte.float_price - cte.initial_price) / cte.initial_price * 100, 2)) AS variance_percentage
 FROM cte
-GROUP BY year,month
-ORDER BY variance DESC
-LIMIT 5
+GROUP BY year, month
+HAVING year="2024"
+ORDER BY variance ASC
+LIMIT 3
 ```
-![image](https://github.com/user-attachments/assets/1dfd1b3a-e71e-4cc6-be37-e4d93f34d000)
+![image](https://github.com/user-attachments/assets/cf838cc2-dea4-4932-b75e-4e3a8151a8b8)
 
-f
+**Monthly Comparisons**
+
+* **October**: presented moderate fluctuations with a variance percentage of 1.50%.
+* **November**: showed a clear peak in both variance and percentage, highlighting a month of significant change that may warrant further investigation.
+* **December**: displayed a stark decline in both metrics, indicating a return to more stable conditions as the year concluded.
+
+**Conclusion**
+The analysis of variance and variance percentage from October to December 2024 reveals critical insights into performance dynamics in the final quarter of the year. November stands out as a month of notable fluctuation, while December reflects a return to stability.
+
+* Compared to the data in 2025
 
 In which month is there likely to be the biggest difference between the float price and the initial price?
