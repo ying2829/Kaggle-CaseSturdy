@@ -80,15 +80,13 @@ HAVING year="2024"
 ORDER BY variance DESC
 LIMIT 3
 ```
-![image](https://github.com/user-attachments/assets/1c31f2b8-50d6-4cd6-8ac7-244675e1317e)
+![image](https://github.com/user-attachments/assets/fd2bbad9-5633-4fa1-8e67-5afe55847f2f)
 
 **Monthly Comparisons**
 
 * **June**: exhibited the highest variance percentage at 4.16%, indicating that the changes during this month were significant in relation to the overall metric.
 * **July**: experienced the highest variance but a lower percentage, suggesting that while there were larger fluctuations, these may have been in a more stable context compared to June.
 * **August**: saw a slight decline in both variance and variance percentage, indicating a potential stabilization in the measured metric after the fluctuations observed in the earlier months.
-
-**Conclusion**: The analysis of variance and variance percentage from June to August 2024 reveals interesting dynamics in performance. While July showed the largest absolute variance, June had the most significant relative impact. The slight decline in August suggests a potential stabilization following the earlier volatility.
 
 * TOP 3 unprofitable month in 2024
 ```Bigquery
@@ -106,7 +104,7 @@ HAVING year="2024"
 ORDER BY variance ASC
 LIMIT 3
 ```
-![image](https://github.com/user-attachments/assets/cf838cc2-dea4-4932-b75e-4e3a8151a8b8)
+![image](https://github.com/user-attachments/assets/e56d96d5-5a76-4f8e-9adc-474ff6da33ad)
 
 **Monthly Comparisons**
 
@@ -115,8 +113,60 @@ LIMIT 3
 * **December**: displayed a stark decline in both metrics, indicating a return to more stable conditions as the year concluded.
 
 **Conclusion**
-The analysis of variance and variance percentage from October to December 2024 reveals critical insights into performance dynamics in the final quarter of the year. November stands out as a month of notable fluctuation, while December reflects a return to stability.
+The analysis of variance and variance percentage from June to December 2024 highlights notable trends in performance metrics. July stands out for its high variance, while December reflects a return to stability. Therefore, it appears that fluctuations during the summer season are more pronounced than in the winter season. Observationally, it is evident that individuals tend to take vacations and travel more frequently in the summer months, while they typically remain at home to celebrate Thanksgiving and Christmas during the winter. This pattern suggests that seasonal behaviors significantly influence market dynamics and performance.
 
-* Compared to the data in 2025
+* Top 3 profitable months in 2025
+```Bigquery
+WITH cte AS (SELECT REGEXP_EXTRACT(CAST(calendar.date AS STRING),  r'(\d+)-\d+-\d+') AS year,
+REGEXP_EXTRACT(CAST(calendar.date AS STRING),  r'\d+-(\d+)-\d+') AS month,
+listing_id,calendar.date, `airbnb_seattle.listings`.price AS initial_price,calendar.price AS float_price, 
+FROM (SELECT * FROM`airbnb_seattle.calendar` WHERE available=FALSE) AS calendar
+JOIN `airbnb_seattle.listings` ON calendar.listing_id=`airbnb_seattle.listings`.id)
+SELECT year, month, 
+AVG(ROUND(cte.float_price - cte.initial_price, 2)) AS variance,
+AVG(ROUND((cte.float_price - cte.initial_price) / cte.initial_price * 100, 2)) AS variance_percentage
+FROM cte
+GROUP BY year, month
+HAVING year="2025"
+ORDER BY variance DESC
+LIMIT 3
+```
+![image](https://github.com/user-attachments/assets/a948c28d-0f73-4ac2-a0e1-ce145e33024b)
 
-In which month is there likely to be the biggest difference between the float price and the initial price?
+**Monthly Comparisons**
+
+* **January to February**: The data shows an increase in negative variance, indicating a worsening situation or increased downward pressure.
+**February to March**: The trend continues, with March exhibiting the steepest decline in both variance and variance percentage, reinforcing the notion of heightened volatility during this period.
+
+Top 3 unprofitable months in 2025
+```Bigquery
+WITH cte AS (SELECT REGEXP_EXTRACT(CAST(calendar.date AS STRING),  r'(\d+)-\d+-\d+') AS year,
+REGEXP_EXTRACT(CAST(calendar.date AS STRING),  r'\d+-(\d+)-\d+') AS month,
+listing_id,calendar.date, `airbnb_seattle.listings`.price AS initial_price,calendar.price AS float_price, 
+FROM (SELECT * FROM`airbnb_seattle.calendar` WHERE available=FALSE) AS calendar
+JOIN `airbnb_seattle.listings` ON calendar.listing_id=`airbnb_seattle.listings`.id)
+SELECT year, month, 
+AVG(ROUND(cte.float_price - cte.initial_price, 2)) AS variance,
+AVG(ROUND((cte.float_price - cte.initial_price) / cte.initial_price * 100, 2)) AS variance_percentage
+FROM cte
+GROUP BY year, month
+HAVING year="2025"
+ORDER BY variance ASC
+LIMIT 3
+```
+![image](https://github.com/user-attachments/assets/26fe4dc1-1241-4738-a18a-d8951c9e7c5e)
+
+**Monthly Comparisons**
+* **April**: The variance indicates a negative trend, suggesting that performance metrics fell short of expectations.
+* **May**: The variance worsened in May compared to April, showing a decline in performance. The increase in the negative variance percentage suggests that issues affecting performance became more pronounced.
+* **June**: June reflects the most significant negative variance among the three months analyzed. This ongoing decline raises concerns about sustained performance and may warrant further investigation into the underlying causes.
+
+**Conclusion**
+* Consistent Decline: There is a clear trend of increasing negative variances over the first half of 2025, with each month showing a worsening situation.
+* Rising Variance Percentages: The variance percentages demonstrate that not only is the performance declining, but the rate of decline is also accelerating.
+
+* Compared to the data bwteen June 2024 and June 2025
+[!Note]
+1. From the raw data, although we have whole year data but it is crossed between 2024 and 2025.
+2. The raw data is updated in June which means the major reservation didn't happen yet.
+
