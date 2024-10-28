@@ -173,3 +173,10 @@ LIMIT 3
 
 ![image](https://github.com/user-attachments/assets/9c1dc434-adde-4199-852f-5e5769316665)
 
+## Marketing Analysis
+
+### The most popular description for the property
+```Bigquery
+SELECT DISTINCT(id),name,neighbourhood,neighbourhood_group,room_type
+FROM `airbnb_seattle.listings`
+```
