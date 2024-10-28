@@ -112,9 +112,6 @@ LIMIT 3
 * **November**: showed a clear peak in both variance and percentage, highlighting a month of significant change that may warrant further investigation.
 * **December**: displayed a stark decline in both metrics, indicating a return to more stable conditions as the year concluded.
 
-**Conclusion**
-The analysis of variance and variance percentage from June to December 2024 highlights notable trends in performance metrics. July stands out for its high variance, while December reflects a return to stability. Therefore, it appears that fluctuations during the summer season are more pronounced than in the winter season. Observationally, it is evident that individuals tend to take vacations and travel more frequently in the summer months, while they typically remain at home to celebrate Thanksgiving and Christmas during the winter. This pattern suggests that seasonal behaviors significantly influence market dynamics and performance.
-
 * Top 3 profitable months in 2025
 ```Bigquery
 WITH cte AS (SELECT REGEXP_EXTRACT(CAST(calendar.date AS STRING),  r'(\d+)-\d+-\d+') AS year,
@@ -166,11 +163,13 @@ LIMIT 3
 * Rising Variance Percentages: The variance percentages demonstrate that not only is the performance declining, but the rate of decline is also accelerating.
 
 ### Inspiration
-* Compared to the data bwteen June 2024 and June 2025
 
 >[!NOTE]
 >From the raw data, although we have whole year data but it is crossed between 2024 and 2025.
 >The raw data is updated in June which means the major reservation didn't happen yet.
+
+1. Market Trends and Seasonal Travel Behavior: The summer season presents an opportune time for travel. An analysis of variance and variance percentages from June to December 2024 reveals significant trends in performance metrics. Notably, July exhibits a high variance, while December indicates a return to stability. This suggests that fluctuations during the summer months are more pronounced than those experienced in the winter. Observational data indicates that individuals are more likely to take vacations and travel during the summer, whereas winter months typically see increased home stay for celebrations like Thanksgiving and Christmas. This seasonal behavior strongly influences market dynamics and performance.
+2. Impact of Pre-Booking Reservations: Two key pieces of evidence support the significance of pre-booking reservations. Firstly, the performance trend in 2024 shows a consistent decline, which may correlate with reservation behaviors, particularly since the raw data was updated in June. According to market ecology principles, earlier reservations typically yield lower property prices. Additionally, a comparison between data from June 2024 and June 2025 clearly demonstrates that price fluctuations during the same period are inversely related. This provides compelling evidence to explain the differences observed between these two years.
 
 ![image](https://github.com/user-attachments/assets/9c1dc434-adde-4199-852f-5e5769316665)
 
