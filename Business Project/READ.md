@@ -71,16 +71,17 @@ REGEXP_EXTRACT(CAST(calendar.date AS STRING),  r'\d+-(\d+)-\d+') AS month,
 listing_id,calendar.date, `airbnb_seattle.listings`.price AS initial_price,calendar.price AS float_price, 
 FROM (SELECT * FROM`airbnb_seattle.calendar` WHERE available=FALSE) AS calendar
 JOIN `airbnb_seattle.listings` ON calendar.listing_id=`airbnb_seattle.listings`.id)
-SELECT year,month, MAX(ROUND(cte.float_price-cte.initial_price, 2)) AS variance,
-MAX (CONCAT(ROUND((cte.float_price-cte.initial_price)/cte.initial_price*100, 2),"%")) AS variance_percentage
+SELECT year, month, 
+AVG(ROUND(cte.float_price - cte.initial_price, 2)) AS variance,
+AVG(ROUND((cte.float_price - cte.initial_price) / cte.initial_price * 100, 2)) AS variance_percentage
 FROM cte
-GROUP BY year,month
-ORDER BY variance, variance_percentage DESC 
+GROUP BY year, month
+ORDER BY variance DESC
 LIMIT 3
 ```
-![image](https://github.com/user-attachments/assets/4bb91c18-ae6b-47cd-a4a4-e208957f4f76)
+![image](https://github.com/user-attachments/assets/1c31f2b8-50d6-4cd6-8ac7-244675e1317e)
 
-From the table, as you can see that the most profitable months happens in Summer because it indicated a significant price increasing than the one in the lsiting from the variance_
+The data from June to August 2024 reveals a remarkable increaseing in the `variance_percentage`, and it all the month are in summer, suggesting a significant ongoing change or instability. For these summer season, 
 
 * TOP 5 unprofitable month
 ```Bigquery
