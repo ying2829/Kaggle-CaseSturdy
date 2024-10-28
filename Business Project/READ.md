@@ -166,7 +166,8 @@ LIMIT 3
 * Rising Variance Percentages: The variance percentages demonstrate that not only is the performance declining, but the rate of decline is also accelerating.
 
 * Compared to the data bwteen June 2024 and June 2025
-[!Note]
-1. From the raw data, although we have whole year data but it is crossed between 2024 and 2025.
-2. The raw data is updated in June which means the major reservation didn't happen yet.
+
+>[!NOTE]
+>From the raw data, although we have whole year data but it is crossed between 2024 and 2025.
+>The raw data is updated in June which means the major reservation didn't happen yet.
 
