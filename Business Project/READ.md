@@ -176,7 +176,30 @@ LIMIT 3
 ## Marketing Analysis
 
 ### The most popular description for the property
+
+* **The majority**
 ```Bigquery
-SELECT DISTINCT(id),name,neighbourhood,neighbourhood_group,room_type
-FROM `airbnb_seattle.listings`
+SELECT word, COUNT(word) AS word_frequency
+FROM (SELECT word
+FROM `airbnb_seattle.listing_v1`,
+UNNEST(SPLIT(name,' ')) AS word)
+GROUP BY word
+HAVING word NOT IN ("in","&","of","to","the","|","-","and","with","The","at","on","+","from")
+ORDER BY word_frequency DESC
 ```
+![image](https://github.com/user-attachments/assets/fc9a579d-5973-46e7-9f5f-75dd18a243d6)
+
+Based on the data, it appears that properties in Seattle not only highlight location and room type in their descriptions but also focus on terms such as "Modern," "Private," and "Cozy" to attract more guests. Consequently, the marketing approach in Seattle emphasizes a vibe of snugness, exclusivity, safety, and sophistication. In addition to detailing location, room style, and nearby attractions, hosts invest significant effort in showcasing a relaxing atmosphere.
+
+* By `Neighbour`
+
+```Bigquery
+SELECT neighbourhood,word, COUNT(word) AS word_frequency
+FROM (SELECT neighbourhood, word
+FROM `airbnb_seattle.listing_v1`,
+UNNEST(SPLIT(name,' ')) AS word)
+GROUP BY neighbourhood,word
+HAVING word NOT IN ("in","&","of","to","the","|","-","and","with","The","at","on","+","from")
+ORDER BY word_frequency DESC
+```
+I will incorporate this into a Power BI dashboard for presentation, as I don't find it necessary to segment the data by neighborhood for analysis in this context. If you’re interested in exploring it further, please click here.
