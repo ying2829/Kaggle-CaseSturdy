@@ -34,9 +34,9 @@ LIMIT 3
 ```Bigquery
 WITH cte AS (SELECT  REGEXP_EXTRACT(CAST(calendar.date AS STRING),  r'(\d+)-\d+-\d+') AS year,
 REGEXP_EXTRACT(CAST(calendar.date AS STRING),  r'\d+-(\d+)-\d+') AS month,
-listing_id,calendar.date, `airbnb_seattle.listings`.price AS initial_price,calendar.price AS floart_price, 
+listing_id,calendar.date, `airbnb_seattle.listing_v1`.price AS initial_price,calendar.price AS floart_price, 
 FROM (SELECT * FROM`airbnb_seattle.calendar` WHERE available=FALSE) AS calendar
-JOIN `airbnb_seattle.listings` ON calendar.listing_id=`airbnb_seattle.listings`.id)
+JOIN `airbnb_seattle.listing_v1` ON calendar.listing_id=`airbnb_seattle.listing_v1`.id)
 SELECT cte.year,cte.month,cte.initial_price
 FROM cte
 WHERE cte.year="2024"
@@ -68,9 +68,9 @@ To analyze this question, first, we should eliminate the null price in the listi
 ```Bigquery
 WITH cte AS (SELECT REGEXP_EXTRACT(CAST(calendar.date AS STRING),  r'(\d+)-\d+-\d+') AS year,
 REGEXP_EXTRACT(CAST(calendar.date AS STRING),  r'\d+-(\d+)-\d+') AS month,
-listing_id,calendar.date, `airbnb_seattle.listings`.price AS initial_price,calendar.price AS float_price, 
+listing_id,calendar.date, `airbnb_seattle.listing_v1`.price AS initial_price,calendar.price AS float_price, 
 FROM (SELECT * FROM`airbnb_seattle.calendar` WHERE available=FALSE) AS calendar
-JOIN `airbnb_seattle.listings` ON calendar.listing_id=`airbnb_seattle.listings`.id)
+JOIN `airbnb_seattle.listing_v1` ON calendar.listing_id= `airbnb_seattle.listing_v1`.id)
 SELECT year, month, 
 AVG(ROUND(cte.float_price - cte.initial_price, 2)) AS variance,
 AVG(ROUND((cte.float_price - cte.initial_price) / cte.initial_price * 100, 2)) AS variance_percentage
@@ -92,9 +92,9 @@ LIMIT 3
 ```Bigquery
 WITH cte AS (SELECT REGEXP_EXTRACT(CAST(calendar.date AS STRING),  r'(\d+)-\d+-\d+') AS year,
 REGEXP_EXTRACT(CAST(calendar.date AS STRING),  r'\d+-(\d+)-\d+') AS month,
-listing_id,calendar.date, `airbnb_seattle.listings`.price AS initial_price,calendar.price AS float_price, 
+listing_id,calendar.date, `airbnb_seattle.listing_v1`.price AS initial_price,calendar.price AS float_price, 
 FROM (SELECT * FROM`airbnb_seattle.calendar` WHERE available=FALSE) AS calendar
-JOIN `airbnb_seattle.listings` ON calendar.listing_id=`airbnb_seattle.listings`.id)
+JOIN `airbnb_seattle.listing_v1` ON calendar.listing_id= `airbnb_seattle.listing_v1`.id)
 SELECT year, month, 
 AVG(ROUND(cte.float_price - cte.initial_price, 2)) AS variance,
 AVG(ROUND((cte.float_price - cte.initial_price) / cte.initial_price * 100, 2)) AS variance_percentage
@@ -116,9 +116,9 @@ LIMIT 3
 ```Bigquery
 WITH cte AS (SELECT REGEXP_EXTRACT(CAST(calendar.date AS STRING),  r'(\d+)-\d+-\d+') AS year,
 REGEXP_EXTRACT(CAST(calendar.date AS STRING),  r'\d+-(\d+)-\d+') AS month,
-listing_id,calendar.date, `airbnb_seattle.listings`.price AS initial_price,calendar.price AS float_price, 
+listing_id,calendar.date, `airbnb_seattle.listing_v1`.price AS initial_price,calendar.price AS float_price, 
 FROM (SELECT * FROM`airbnb_seattle.calendar` WHERE available=FALSE) AS calendar
-JOIN `airbnb_seattle.listings` ON calendar.listing_id=`airbnb_seattle.listings`.id)
+JOIN `airbnb_seattle.listing_v1` ON calendar.listing_id= `airbnb_seattle.listing_v1`.id)
 SELECT year, month, 
 AVG(ROUND(cte.float_price - cte.initial_price, 2)) AS variance,
 AVG(ROUND((cte.float_price - cte.initial_price) / cte.initial_price * 100, 2)) AS variance_percentage
@@ -139,9 +139,9 @@ Top 3 unprofitable months in 2025
 ```Bigquery
 WITH cte AS (SELECT REGEXP_EXTRACT(CAST(calendar.date AS STRING),  r'(\d+)-\d+-\d+') AS year,
 REGEXP_EXTRACT(CAST(calendar.date AS STRING),  r'\d+-(\d+)-\d+') AS month,
-listing_id,calendar.date, `airbnb_seattle.listings`.price AS initial_price,calendar.price AS float_price, 
+listing_id,calendar.date, `airbnb_seattle.listing_v1`.price AS initial_price,calendar.price AS float_price, 
 FROM (SELECT * FROM`airbnb_seattle.calendar` WHERE available=FALSE) AS calendar
-JOIN `airbnb_seattle.listings` ON calendar.listing_id=`airbnb_seattle.listings`.id)
+JOIN `airbnb_seattle.listing_v1` ON calendar.listing_id= `airbnb_seattle.listing_v1`.id)
 SELECT year, month, 
 AVG(ROUND(cte.float_price - cte.initial_price, 2)) AS variance,
 AVG(ROUND((cte.float_price - cte.initial_price) / cte.initial_price * 100, 2)) AS variance_percentage
