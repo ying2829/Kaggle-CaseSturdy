@@ -177,9 +177,9 @@ LIMIT 3
 
 In this section, I would like to delve deeper into SEO and advertising strategies. In addition to analyzing the most frequently used keywords by hosts, I aim to explore the factors that are significant to travelers in Seattle. Furthermore, it is important to examine whether neighborhood characteristics influence these factors. Then we can understand if the adveristing words is aligned to what the customer needs.
 
-Before importing the raw data into Power BI for analysis, it is essential to clean the data. The distribution clearly indicates that the lower values represent a minority group and should not be included in our analysis. Therefore, I recommend creating buckets to facilitate the observation of outliers.
+Before importing the raw data into Power BI for analysis, it is essential to clean the data, especially for the reviews left by the guests. The distribution clearly indicates that the lower values represent a minority group and should not be included in our analysis. Therefore, I recommend creating buckets to facilitate the observation of outliers.
 
-For instance, in analyzing guest reviews, I transformed the data into a more readable histogram format. Additionally, I excluded values below 6343, as they account for only 0.03% of the total values in the majority group. And for majority adveristing words using in the host, I excluded values below 13.
+For instance, in analyzing guest reviews, I transformed the data into a more readable histogram format. Additionally, I excluded values below 6343, as they account for only 0.03% of the total values in the majority group. 
    
 I will incorporate this into a Power BI dashboard for presentation, as I don't find it necessary to segment the data by neighborhood for analysis in this context. If you’re interested in exploring it further, please click here.
 
