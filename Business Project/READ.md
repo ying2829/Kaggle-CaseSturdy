@@ -173,9 +173,18 @@ LIMIT 3
 
 ![image](https://github.com/user-attachments/assets/9c1dc434-adde-4199-852f-5e5769316665)
 
-## Marketing Analysis
+## Marketing Analysis - SEO
+
+In this section, I would like to delve deeper into SEO and advertising strategies. In addition to analyzing the most frequently used keywords by hosts, I aim to explore the factors that are significant to travelers in Seattle. Furthermore, it is important to examine whether neighborhood characteristics influence these factors. Then we can understand if the adveristing words is aligned to what the customer needs.
+
+Before importing the raw data into Power BI for analysis, it is essential to clean the data. The distribution clearly indicates that the lower values represent a minority group and should not be included in our analysis. Therefore, I recommend creating buckets to facilitate the observation of outliers.
+
+For instance, in analyzing guest reviews, I transformed the data into a more readable histogram format. Additionally, I excluded values below 611,157, as they account for only 0.03% of the total values in the majority group.
+   
+I will incorporate this into a Power BI dashboard for presentation, as I don't find it necessary to segment the data by neighborhood for analysis in this context. If you’re interested in exploring it further, please click here.
 
 ### The most popular description for the property
+
 
 * **The majority**
 ```Bigquery
@@ -204,19 +213,18 @@ ORDER BY word_frequency DESC
 ```
 
 * By guest point of view
-It is very interesting that we can also compared to the comments the gurests left in the property to figure it out what matter for people who traveled Seattle. (And, I filier `word_frequency` is less than the average which is less than 893.)
+It is very interesting that we can also compared to the comments the gurests left in the property to figure it out what matter for people who traveled Seattle. 
+
 ```Bigquery
-SELECT word, COUNT(word) AS word_frequency
+WITH cte AS( SELECT word, COUNT(word) AS word_frequency
 FROM (SELECT word
 FROM `airbnb_seattle.reviews_overall`,
 UNNEST(SPLIT(comments,' ')) AS word)
 GROUP BY word
-HAVING word NOT IN ("in","&","of","to","the","|","-","and","with","The","at","on","+","from","us","there","well","really","not","had",
-"was","a","were","is","are","I","for","very","place","stay","We","we","our","you","it","as","that","this","but","It","my","all","definitely","an",
-"have","be","This","if","Very","just","time","out","time","has","also","or","again","will","so","would","everything")
-AND word_frequency >893
-ORDER BY word_frequency DESC
+ORDER BY word_frequency DESC)
+SELECT TRUNC(cte.word_frequency,-1) AS nearest_10,word_frequency,ROUND(cte.word_frequency/5,0)*5 AS round_5_value
+FROM cte
+WHERE ROUND(cte.word_frequency/5,0)*5<=634289
+ORDER BY cte.word_frequency DESC
 ```
-
-I will incorporate this into a Power BI dashboard for presentation, as I don't find it necessary to segment the data by neighborhood for analysis in this context. If you’re interested in exploring it further, please click here.
 
