@@ -179,7 +179,7 @@ In this section, I would like to delve deeper into SEO and advertising strategie
 
 Before importing the raw data into Power BI for analysis, it is essential to clean the data. The distribution clearly indicates that the lower values represent a minority group and should not be included in our analysis. Therefore, I recommend creating buckets to facilitate the observation of outliers.
 
-For instance, in analyzing guest reviews, I transformed the data into a more readable histogram format. Additionally, I excluded values below 6343, as they account for only 0.03% of the total values in the majority group.
+For instance, in analyzing guest reviews, I transformed the data into a more readable histogram format. Additionally, I excluded values below 6343, as they account for only 0.03% of the total values in the majority group. And for majority adveristing words using in the host, I excluded values below 13.
    
 I will incorporate this into a Power BI dashboard for presentation, as I don't find it necessary to segment the data by neighborhood for analysis in this context. If you’re interested in exploring it further, please click here.
 
@@ -192,8 +192,7 @@ SELECT word, COUNT(word) AS word_frequency
 FROM (SELECT word
 FROM `airbnb_seattle.listing_v1`,
 UNNEST(SPLIT(name,' ')) AS word)
-GROUP BY word
-HAVING word NOT IN ("in","&","of","to","the","|","-","and","with","The","at","on","+","from")
+GROUP BY wordHAVING word_frequency>=13
 ORDER BY word_frequency DESC
 ```
 ![image](https://github.com/user-attachments/assets/fc9a579d-5973-46e7-9f5f-75dd18a243d6)
@@ -208,7 +207,7 @@ FROM (SELECT neighbourhood, word
 FROM `airbnb_seattle.listing_v1`,
 UNNEST(SPLIT(name,' ')) AS word)
 GROUP BY neighbourhood,word
-HAVING word NOT IN ("in","&","of","to","the","|","-","and","with","The","at","on","+","from")
+HAVING word_frequency>=13
 ORDER BY word_frequency DESC
 ```
 
