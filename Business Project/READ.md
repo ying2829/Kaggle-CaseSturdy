@@ -204,7 +204,7 @@ ORDER BY word_frequency DESC
 ```
 
 * By guest point of view
-It is very interesting that we can also compared to the comments the gurests left in the property to figure it out what matter for people who traveled Seattle.
+It is very interesting that we can also compared to the comments the gurests left in the property to figure it out what matter for people who traveled Seattle. (And, I filier `word_frequency` is less than the average which is less than 893.)
 ```Bigquery
 SELECT word, COUNT(word) AS word_frequency
 FROM (SELECT word
@@ -214,6 +214,7 @@ GROUP BY word
 HAVING word NOT IN ("in","&","of","to","the","|","-","and","with","The","at","on","+","from","us","there","well","really","not","had",
 "was","a","were","is","are","I","for","very","place","stay","We","we","our","you","it","as","that","this","but","It","my","all","definitely","an",
 "have","be","This","if","Very","just","time","out","time","has","also","or","again","will","so","would","everything")
+AND word_frequency >893
 ORDER BY word_frequency DESC
 ```
 
