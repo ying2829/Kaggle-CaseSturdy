@@ -179,7 +179,7 @@ In this section, I would like to delve deeper into SEO and advertising strategie
 
 Before importing the raw data into Power BI for analysis, it is essential to clean the data. The distribution clearly indicates that the lower values represent a minority group and should not be included in our analysis. Therefore, I recommend creating buckets to facilitate the observation of outliers.
 
-For instance, in analyzing guest reviews, I transformed the data into a more readable histogram format. Additionally, I excluded values below 611,157, as they account for only 0.03% of the total values in the majority group.
+For instance, in analyzing guest reviews, I transformed the data into a more readable histogram format. Additionally, I excluded values below 6343, as they account for only 0.03% of the total values in the majority group.
    
 I will incorporate this into a Power BI dashboard for presentation, as I don't find it necessary to segment the data by neighborhood for analysis in this context. If you’re interested in exploring it further, please click here.
 
