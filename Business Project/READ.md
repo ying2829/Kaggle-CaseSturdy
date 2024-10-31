@@ -215,15 +215,15 @@ ORDER BY word_frequency DESC
 It is very interesting that we can also compared to the comments the gurests left in the property to figure it out what matter for people who traveled Seattle. 
 
 ```Bigquery
-WITH cte AS( SELECT word, COUNT(word) AS word_frequency
-FROM (SELECT word
-FROM `airbnb_seattle.reviews_overall`,
+WITH cte AS (SELECT reviews.listing_id,neighbourhood,comments
+FROM `airbnb_seattle.reviews_overall` AS reviews
+JOIN `airbnb_seattle.listing_v1` AS listing ON reviews.listing_id=listing.id),
+cte1 AS (SELECT neighbourhood,word, COUNT(*) AS word_frequency
+FROM (SELECT neighbourhood,word FROM cte,
 UNNEST(SPLIT(comments,' ')) AS word)
-GROUP BY word
-ORDER BY word_frequency DESC)
-SELECT TRUNC(cte.word_frequency,-1) AS nearest_10,word_frequency,ROUND(cte.word_frequency/5,0)*5 AS round_5_value
-FROM cte
-WHERE ROUND(cte.word_frequency/5,0)*5<=634289
-ORDER BY cte.word_frequency DESC
+GROUP BY neighbourhood, word)
+SELECT neighbourhood,word,cte1.word_frequency, TRUNC(cte.word_frequency,-1) AS nearest_10,ROUND(cte.word_frequency/5,0)*5 AS round_5_value
+FROM cte1
+WHERE cte1.word_frequency>=6343
 ```
 
