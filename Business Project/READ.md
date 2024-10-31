@@ -222,8 +222,7 @@ cte1 AS (SELECT neighbourhood,word, COUNT(*) AS word_frequency
 FROM (SELECT neighbourhood,word FROM cte,
 UNNEST(SPLIT(comments,' ')) AS word)
 GROUP BY neighbourhood, word)
-SELECT neighbourhood,word,cte1.word_frequency, TRUNC(cte.word_frequency,-1) AS nearest_10,ROUND(cte.word_frequency/5,0)*5 AS round_5_value
+SELECT neighbourhood,word,cte1.word_frequency
 FROM cte1
-WHERE cte1.word_frequency>=6343
 ```
 
