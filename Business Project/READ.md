@@ -199,14 +199,14 @@ ORDER BY word_frequency DESC
 
 Based on the data, it appears that properties in Seattle not only highlight location and room type in their descriptions but also focus on terms such as "Modern," "Private," and "Cozy" to attract more guests. Consequently, the marketing approach in Seattle emphasizes a vibe of snugness, exclusivity, safety, and sophistication. In addition to detailing location, room style, and nearby attractions, hosts invest significant effort in showcasing a relaxing atmosphere.
 
-* By `Neighbour`
+* By `Neighbourhood_group`
 
 ```Bigquery
-SELECT neighbourhood,word, COUNT(word) AS word_frequency
-FROM (SELECT neighbourhood, word
+SELECT neighbourhood_group,word, COUNT(word) AS word_frequency
+FROM (SELECT neighbourhood_group, word
 FROM `airbnb_seattle.listing_v1`,
 UNNEST(SPLIT(name,' ')) AS word)
-GROUP BY neighbourhood,word
+GROUP BY neighbourhood_group,word
 HAVING word_frequency>=13
 ORDER BY word_frequency DESC
 ```
@@ -215,14 +215,15 @@ ORDER BY word_frequency DESC
 It is very interesting that we can also compared to the comments the gurests left in the property to figure it out what matter for people who traveled Seattle. 
 
 ```Bigquery
-WITH cte AS (SELECT reviews.listing_id,neighbourhood,comments
+WITH cte AS (SELECT reviews.listing_id,neighbourhood_group,comments
 FROM `airbnb_seattle.reviews_overall` AS reviews
 JOIN `airbnb_seattle.listing_v1` AS listing ON reviews.listing_id=listing.id),
-cte1 AS (SELECT neighbourhood,word, COUNT(*) AS word_frequency
-FROM (SELECT neighbourhood,word FROM cte,
+cte1 AS (SELECT neighbourhood_group,word, COUNT(*) AS word_frequency
+FROM (SELECT neighbourhood_group,word FROM cte,
 UNNEST(SPLIT(comments,' ')) AS word)
-GROUP BY neighbourhood, word)
-SELECT neighbourhood,word,cte1.word_frequency
+GROUP BY neighbourhood_group, word)
+SELECT neighbourhood_group,word,cte1.word_frequency
 FROM cte1
+WHERE cte1.word_frequency>=6434
 ```
 
