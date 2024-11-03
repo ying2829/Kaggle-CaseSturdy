@@ -34,31 +34,32 @@ LIMIT 3
 ```Bigquery
 WITH cte AS (SELECT  REGEXP_EXTRACT(CAST(calendar.date AS STRING),  r'(\d+)-\d+-\d+') AS year,
 REGEXP_EXTRACT(CAST(calendar.date AS STRING),  r'\d+-(\d+)-\d+') AS month,
-listing_id,calendar.date, `airbnb_seattle.listing_v1`.price AS initial_price,calendar.price AS floart_price, 
+listing_id,calendar.date, `airbnb_seattle.listing_v1`.price AS initial_price,calendar.price AS float_price, 
 FROM (SELECT * FROM`airbnb_seattle.calendar` WHERE available=FALSE) AS calendar
 JOIN `airbnb_seattle.listing_v1` ON calendar.listing_id=`airbnb_seattle.listing_v1`.id)
-SELECT cte.year,cte.month,cte.initial_price
+SELECT cte.year,cte.month,cte.float_price
 FROM cte
 WHERE cte.year="2024"
 ORDER by cte.initial_price DESC
 LIMIT 1
 ```
-![image](https://github.com/user-attachments/assets/5eef9c61-01a1-48b2-b204-ff79757dcbd2)
+![image](https://github.com/user-attachments/assets/bdac9f4c-d23b-4b7e-826b-a2bb6213725e)
 
 ### Price Spike for 2025
 ```Bigquery
 WITH cte AS (SELECT  REGEXP_EXTRACT(CAST(calendar.date AS STRING),  r'(\d+)-\d+-\d+') AS year,
 REGEXP_EXTRACT(CAST(calendar.date AS STRING),  r'\d+-(\d+)-\d+') AS month,
-listing_id,calendar.date, `airbnb_seattle.listings`.price AS initial_price,calendar.price AS floart_price, 
+listing_id,calendar.date, `airbnb_seattle.listing_v1`.price AS initial_price,calendar.price AS float_price, 
 FROM (SELECT * FROM`airbnb_seattle.calendar` WHERE available=FALSE) AS calendar
-JOIN `airbnb_seattle.listings` ON calendar.listing_id=`airbnb_seattle.listings`.id)
-SELECT cte.year,cte.month,cte.initial_price
+JOIN `airbnb_seattle.listing_v1` ON calendar.listing_id=`airbnb_seattle.listing_v1`.id)
+SELECT cte.year,cte.month,cte.float_price
 FROM cte
 WHERE cte.year="2025"
 ORDER by cte.initial_price DESC
 LIMIT 1
 ```
-![image](https://github.com/user-attachments/assets/2fb1042a-a67a-4a8d-ac5a-71a8daf70b49)
+![image](https://github.com/user-attachments/assets/dae4c7e1-7a97-457f-9806-54bdc343960b)
+
 
 ### Analysis
 Which month is/isn't the most profitable? (The difference between initial price and float price)
