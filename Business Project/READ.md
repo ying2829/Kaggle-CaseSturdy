@@ -134,7 +134,7 @@ LIMIT 3
 **Monthly Comparisons**
 
 * **January to February**: The data shows an increase in negative variance, indicating a worsening situation or increased downward pressure.
-**February to March**: The trend continues, with March exhibiting the steepest decline in both variance and variance percentage, reinforcing the notion of heightened volatility during this period.
+* **February to March**: The trend continues, with March exhibiting the steepest decline in both variance and variance percentage, reinforcing the notion of heightened volatility during this period.
 
 Top 3 unprofitable months in 2025
 ```Bigquery
