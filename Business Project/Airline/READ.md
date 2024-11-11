@@ -8,3 +8,19 @@ This is an analysis report for the __Northern Light Air__ . And this report we a
 
 Also, this is the report which more focus on the query writing and analysis. I will also create a dashboard in Power BI and attach it to here for reference.
 
+```bigquery
+WITH cte AS (SELECT loyalty_number,enrollment_year,enrollment_month,cancellation_year,cancellation_month,
+CAST(CONCAT(enrollment_year,'-',enrollment_month,'-','01')AS DATE) AS enrollment_date,
+CAST(CONCAT(cancellation_year,'-',cancellation_month,'-','01') AS DATE) AS cancellation_date,
+CLV
+FROM `Airline_Loyalty_Program.airline_loyalty_history`),
+cte1 AS (SELECT *,
+CASE WHEN cte.enrollment_date<'2018-02-01'THEN 'before_promotion'
+WHEN cte.enrollment_date BETWEEN '2018-02-01' AND '2018-04-01' THEN 'under_promotion'
+WHEN cte.enrollment_date >'2018-04-01' THEN 'after_promotion'
+END AS category
+FROM cte)
+SELECT category, SUM(CLV) AS total_revenue_promotion
+FROM cte1
+GROUP BY ROLLUP (category)
+```
