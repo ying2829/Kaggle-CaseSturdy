@@ -19,8 +19,10 @@ CASE WHEN cte.enrollment_date<'2018-02-01'THEN 'before_promotion'
 WHEN cte.enrollment_date BETWEEN '2018-02-01' AND '2018-04-01' THEN 'under_promotion'
 WHEN cte.enrollment_date >'2018-04-01' THEN 'after_promotion'
 END AS category
-FROM cte)
-SELECT category, SUM(CLV) AS total_revenue_promotion
+FROM cte),
+cte2 AS (SELECT category, SUM(CLV) AS total_revenue
 FROM cte1
-GROUP BY ROLLUP (category)
+GROUP BY category)
+SELECT category,total_revenue,CONCAT(ROUND(cte2.total_revenue/133710161.32000037*1000,2),"%") AS percentage_of_total
+FROM cte2
 ```
