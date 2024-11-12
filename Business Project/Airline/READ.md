@@ -8,6 +8,7 @@ This is an analysis report for the __Northern Light Air__ . And this report we a
 
 Also, this is the report which more focus on the query writing and analysis. I will also create a dashboard in Power BI and attach it to here for reference.
 
+First of all, I use `rollup` function to know the total revenue of the CLV.
 ```bigquery
 WITH cte AS (SELECT loyalty_number,enrollment_year,enrollment_month,cancellation_year,cancellation_month,
 CAST(CONCAT(enrollment_year,'-',enrollment_month,'-','01')AS DATE) AS enrollment_date,
@@ -15,14 +16,17 @@ CAST(CONCAT(cancellation_year,'-',cancellation_month,'-','01') AS DATE) AS cance
 CLV
 FROM `Airline_Loyalty_Program.airline_loyalty_history`),
 cte1 AS (SELECT *,
-CASE WHEN cte.enrollment_date<'2018-02-01'THEN 'before_promotion'
-WHEN cte.enrollment_date BETWEEN '2018-02-01' AND '2018-04-01' THEN 'under_promotion'
-WHEN cte.enrollment_date >'2018-04-01' THEN 'after_promotion'
+CASE WHEN cte.enrollment_date<'2018-02-01'THEN 'ahead_promotion'
+WHEN cte.enrollment_date BETWEEN '2018-02-01' AND '2018-04-01' THEN 'promotion'
+WHEN cte.enrollment_date >'2018-04-01' THEN 'sub_promotion'
 END AS category
 FROM cte),
 cte2 AS (SELECT category, SUM(CLV) AS total_revenue
 FROM cte1
 GROUP BY category)
-SELECT category,total_revenue,CONCAT(ROUND(cte2.total_revenue/133710161.32000037*1000,2),"%") AS percentage_of_total
+SELECT category,total_revenue,
+CONCAT(ROUND(cte2.total_revenue/133710161.32000037*100,2),"%") AS percentage_of_total
 FROM cte2
+ORDER BY category
 ```
+![image](https://github.com/user-attachments/assets/b1c1543e-1553-447a-b79f-268a6435ce71)
