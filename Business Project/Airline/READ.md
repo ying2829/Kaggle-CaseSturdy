@@ -43,25 +43,29 @@ ORDER BY category
 ## YOY ##
 
 * __The same period during the promotion__
-```bigquery
+ ```bigquery
 WITH cte AS (SELECT loyalty_number,enrollment_year,enrollment_month,cancellation_year,cancellation_month,
 CAST(CONCAT(enrollment_year, '-', enrollment_month, '-01') AS DATE) AS enrollment_date,
 CAST(CONCAT(cancellation_year, '-', cancellation_month, '-01') AS DATE) AS cancellation_date,
 CLV
 FROM `Airline_Loyalty_Program.airline_loyalty_history`),
 cte1 AS (SELECT *,
-CASE WHEN enrollment_date BETWEEN '2018-05-01' AND '2018-12-01' THEN 'after_promotion'
-WHEN enrollment_date BETWEEN '2017-05-01' AND '2017-12-01' THEN 'yoy_after_promotion'
+CASE WHEN enrollment_date BETWEEN '2018-02-01' AND '2018-04-01' THEN 'after_promotion'
+WHEN enrollment_date BETWEEN '2017-02-01' AND '2017-04-01' THEN 'yoy_after_promotion'
 ELSE NULL
 END AS category
-FROM cte
-SELECT category,ROUND(SUM(CLV),2)AS total_revenue,LAG(ROUND(SUM(CLV),2))OVER(ORDER BY category DESC)
+FROM cte),
+cte2 AS (SELECT category,ROUND(SUM(CLV),2)AS total_revenue,LAG(ROUND(SUM(CLV),2))OVER(ORDER BY category DESC) AS per_revenue
 FROM cte1
 GROUP BY category
 HAVING category IS NOT NULL
-ORDER BY category DESC
+ORDER BY category DESC)
+SELECT ROUND (cte2.total_revenue-per_revenue,2) AS varaince, CONCAT(ROUND((cte2.total_revenue-per_revenue)/per_revenue*100,2),"%") AS percentage_variance
+FROM cte2
 ```
-![image](https://github.com/user-attachments/assets/b9d4a491-86ad-4002-9c8e-747b650359af)
+![image](https://github.com/user-attachments/assets/489bb745-db5d-4c42-8088-0cf635022a50)
+
+* __The same period after the promotion__
 
 ```bigquery
 WITH cte AS (SELECT loyalty_number,enrollment_year,enrollment_month,cancellation_year,cancellation_month,
@@ -86,7 +90,5 @@ FROM cte2
 
 ![image](https://github.com/user-attachments/assets/31550198-aaf2-4bca-82fd-1f89e15a6656)
 
-Compared to the same period, it is obviously that the campaign contributed the 12.58% of YOY growth.
-
-* __The same period after the promotion__
-
+* __Analyse__
+Rather than using data segmented by pre- and post-promotion periods to assess the results of the loyalty program, I prefer to use a year-over-year (YOY) comparison. As shown in the first table, the promotion contributed 67.08% of the revenue compared to the same period last year. Furthermore, the program demonstrated significant advertising effectiveness, as evidenced by the 12.58% revenue generated after the promotion, attributed to continued membership enrollment.
