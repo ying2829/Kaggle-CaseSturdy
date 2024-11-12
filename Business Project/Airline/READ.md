@@ -8,7 +8,15 @@ This is an analysis report for the __Northern Light Air__ . And this report we a
 
 Also, this is the report which more focus on the query writing and analysis. I will also create a dashboard in Power BI and attach it to here for reference.
 
-First of all, I use `rollup` function to know the total revenue of the CLV.
+First of all, I use `rollup` function to know the total revenue of the CLV which is 133710161.32000037. And if we only observe the case in the surface, we can simply divided the reveue by `enrollment_type` which is standard and the 2018 promotion.
+```bigquery
+SELECT enrollment_type,SUM (CLV) AS total_revenue
+FROM `Airline_Loyalty_Program.airline_loyalty_history`
+GROUP BY enrollment_type
+```
+![image](https://github.com/user-attachments/assets/77a5140b-5a2d-421c-a00d-545dfece1350)
+
+Therefore, the promtion achieve 5.84% revenue of the total reveue. However, if we divied the data by time, then it would be more clear about the resultof the promotion.
 ```bigquery
 WITH cte AS (SELECT loyalty_number,enrollment_year,enrollment_month,cancellation_year,cancellation_month,
 CAST(CONCAT(enrollment_year,'-',enrollment_month,'-','01')AS DATE) AS enrollment_date,
