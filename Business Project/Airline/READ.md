@@ -93,3 +93,5 @@ FROM cte2
 * __Analyse__
 
 Rather than using data segmented by pre- and post-promotion periods to assess the results of the loyalty program, I prefer to use a year-over-year (YOY) comparison. As shown in the first table, the promotion contributed 67.08% of the revenue compared to the same period last year. Furthermore, the program demonstrated significant advertising effectiveness, as evidenced by the 12.58% revenue generated after the promotion, attributed to continued membership enrollment.
+
+2. Was the campaign adoption more successful for certain demographics of loyalty members?
