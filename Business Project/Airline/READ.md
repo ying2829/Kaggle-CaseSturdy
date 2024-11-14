@@ -122,7 +122,7 @@ ORDER BY CONCAT(ROUND((promotion-standard)/standard*100,2),"%")
 
 * __Analysis__
 
-From a geographical perspective, the campaign appeared some signficant success in some province. For example, 
+From a geographical perspective, the campaign appeared some signficant success in some province. For example, In Newfoundland, it shows 209.02% growth. Or, in  However, it also revealed the gap in some province. In Price Edward Island, 
 
 * __By Gender__
 ```bigquery
