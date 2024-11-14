@@ -95,6 +95,7 @@ FROM cte2
 Rather than using data segmented by pre- and post-promotion periods to assess the results of the loyalty program, I prefer to use a year-over-year (YOY) comparison. As shown in the first table, the promotion contributed 67.08% of the revenue compared to the same period last year. Furthermore, the program demonstrated significant advertising effectiveness, as evidenced by the 12.58% revenue generated after the promotion, attributed to continued membership enrollment.
 
 2. Was the campaign adoption more successful for certain demographics of loyalty members?
+At this part, if we just divied every data by within and without the promotion, it would be really hard to measure the result of the promotion. So, I suggested we can approach this via the same way which is compared the data in the same period but different year.
 
 * __By Geography (`province`)__
 ```bigquery
@@ -143,3 +144,22 @@ ORDER BY percentage_promotion DESC
 * __Analysis__
 
   The analysis of the promotion results, segmented by gender, reveals a minimal difference of only 0.16% between male and female participants.
+
+ * __By Education__
+```bigquery
+WITH cte AS (SELECT education,enrollment_type,SUM(CLV) AS total_transaction
+FROM `Airline_Loyalty_Program.airline_loyalty_history`
+GROUP BY education,enrollment_type
+ORDER BY education,total_transaction),
+cte3 AS (SELECT cte1.education, 
+cte1.total_transaction AS standard,
+cte2.total_transaction AS promotion
+FROM cte AS cte1
+JOIN cte AS cte2 USING (education)
+WHERE cte1.enrollment_type = "Standard"
+AND cte2.enrollment_type = "2018 Promotion")
+SELECT education,cte3.standard,CONCAT(ROUND(cte3.standard/(cte3.standard+cte3.promotion)*100,2),"%") AS percentage_standard,
+cte3.promotion, CONCAT(ROUND(cte3.promotion/(cte3.standard+cte3.promotion)*100,2),"%") AS percentage_promotion
+FROM cte3
+ORDER BY percentage_promotion DESC
+```
