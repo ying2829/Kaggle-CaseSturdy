@@ -90,7 +90,7 @@ FROM cte2
 
 ![image](https://github.com/user-attachments/assets/31550198-aaf2-4bca-82fd-1f89e15a6656)
 
-* __Analyse__
+* __Analysis__
 
 Rather than using data segmented by pre- and post-promotion periods to assess the results of the loyalty program, I prefer to use a year-over-year (YOY) comparison. As shown in the first table, the promotion contributed 67.08% of the revenue compared to the same period last year. Furthermore, the program demonstrated significant advertising effectiveness, as evidenced by the 12.58% revenue generated after the promotion, attributed to continued membership enrollment.
 
@@ -116,8 +116,30 @@ ORDER BY percentage_promotion DESC
 ```
 ![image](https://github.com/user-attachments/assets/011bce76-b312-4e33-bae0-f135f929e338)
 
-* __Analyse__
+* __Analysis__
 
 From the geography, it doesn't show the signficant difference between each provinces. The percentage of campaign adoption in each province is not  higher than 10%, and the most successful promotion which bring the highest revenue compared to the other province is in Yukon.
 
 * __By Gender__
+```bigquery
+WITH cte AS (SELECT gender,enrollment_type,SUM(CLV) AS total_transaction
+FROM `Airline_Loyalty_Program.airline_loyalty_history`
+GROUP BY gender,enrollment_type
+ORDER BY gender,total_transaction),
+cte3 AS (SELECT cte1.gender, 
+cte1.total_transaction AS standard,
+cte2.total_transaction AS promotion
+FROM cte AS cte1
+JOIN cte AS cte2 USING (gender)
+WHERE cte1.enrollment_type = "Standard"
+AND cte2.enrollment_type = "2018 Promotion")
+SELECT gender,cte3.standard,CONCAT(ROUND(cte3.standard/(cte3.standard+cte3.promotion)*100,2),"%") AS percentage_standard,
+cte3.promotion, CONCAT(ROUND(cte3.promotion/(cte3.standard+cte3.promotion)*100,2),"%") AS percentage_promotion
+FROM cte3
+ORDER BY percentage_promotion DESC
+```
+![image](https://github.com/user-attachments/assets/48100b42-eb48-4041-b86d-f06a896bd51d)
+
+* __Analysis__
+
+  The analysis of the promotion results, segmented by gender, reveals a minimal difference of only 0.16% between male and female participants.
