@@ -95,3 +95,29 @@ FROM cte2
 Rather than using data segmented by pre- and post-promotion periods to assess the results of the loyalty program, I prefer to use a year-over-year (YOY) comparison. As shown in the first table, the promotion contributed 67.08% of the revenue compared to the same period last year. Furthermore, the program demonstrated significant advertising effectiveness, as evidenced by the 12.58% revenue generated after the promotion, attributed to continued membership enrollment.
 
 2. Was the campaign adoption more successful for certain demographics of loyalty members?
+
+* __By Geography (`province`)__
+```bigquery
+WITH cte AS (SELECT province,enrollment_type,SUM(CLV) AS total_transaction
+FROM `Airline_Loyalty_Program.airline_loyalty_history`
+GROUP BY province,enrollment_type
+ORDER BY province,total_transaction),
+cte3 AS (SELECT cte1.province, 
+cte1.total_transaction AS standard,
+cte2.total_transaction AS promotion
+FROM cte AS cte1
+JOIN cte AS cte2 USING (province)
+WHERE cte1.enrollment_type = "Standard"
+AND cte2.enrollment_type = "2018 Promotion")
+SELECT province,standard,CONCAT(ROUND(standard/(cte3.standard+cte3.promotion)*100,2),"%") AS percentage_standard,
+promotion, CONCAT(ROUND(promotion/(cte3.standard+cte3.promotion)*100,2),"%") AS percentage_promotion
+FROM cte3
+ORDER BY percentage_promotion DESC
+```
+![image](https://github.com/user-attachments/assets/011bce76-b312-4e33-bae0-f135f929e338)
+
+* __Analyse__
+
+From the geography, it doesn't show the signficant difference between each provinces. The percentage of campaign adoption in each province is not  higher than 10%, and the most successful promotion which bring the highest revenue compared to the other province is in Yukon.
+
+* __By Gender__
