@@ -199,3 +199,19 @@ ORDER BY CONCAT(ROUND((promotion-standard)/standard*100,2),"%") DESC
 
 * __Analysis__
 The promotional campaign was effective across all marital status categories, with the divorced demographic showing the strongest growth in both percentage and absolute terms. Future campaigns may benefit from targeting this group more specifically, while continuing to nurture the engagement of both single and married customers.
+
+* __By Salary__
+For the salary, I segmented the figure into group and find the median salary.
+```bigquery
+WITH cte AS (
+    SELECT IF(salary<0,0-salary,salary) AS salary, 
+    COUNT(salary) AS frequency
+    FROM `Airline_Loyalty_Program.airline_loyalty_program_date`
+    GROUP BY salary
+)
+SELECT salary,cte.frequency
+FROM cte
+WHERE frequency<=7
+ORDER BY salary
+```
+Then I need to figure  
