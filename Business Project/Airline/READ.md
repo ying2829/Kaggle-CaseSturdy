@@ -198,3 +198,4 @@ ORDER BY CONCAT(ROUND((promotion-standard)/standard*100,2),"%") DESC
 ![image](https://github.com/user-attachments/assets/570cf845-4206-4a50-982c-f33007d73846)
 
 * __Analysis__
+The promotional campaign was effective across all marital status categories, with the divorced demographic showing the strongest growth in both percentage and absolute terms. Future campaigns may benefit from targeting this group more specifically, while continuing to nurture the engagement of both single and married customers.
