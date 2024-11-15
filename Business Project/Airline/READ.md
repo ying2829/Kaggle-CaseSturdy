@@ -122,12 +122,14 @@ ORDER BY CONCAT(ROUND((promotion-standard)/standard*100,2),"%")
 
 * __Analysis__
 
-From a geographical perspective, the campaign appeared some signficant success in some province. For example, In Newfoundland, it shows 209.02% growth. Or, in  However, it also revealed the gap in some province. In Price Edward Island, 
+From a geographical perspective, the majority of provinces have experienced impressive growth, with Newfoundland demonstrating a remarkable doubling in growth. Even the provinces with the lowest positive growth have seen an increase of approximately 19%. However, it is important to note that Prince Edward Island, Manitoba, Alberta, and Nova Scotia have not achieved the same level of success.
 
 * __By Gender__
 ```bigquery
 WITH cte AS (SELECT gender,enrollment_type,SUM(CLV) AS total_transaction
-FROM `Airline_Loyalty_Program.airline_loyalty_history`
+FROM 
+(SELECT * FROM`Airline_Loyalty_Program.airline_loyalty_program_date`
+WHERE enrollment_date BETWEEN '2017-02-01' AND '2017-04-01' OR enrollment_date BETWEEN '2018-02-01'AND '2018-04-01')
 GROUP BY gender,enrollment_type
 ORDER BY gender,total_transaction),
 cte3 AS (SELECT cte1.gender, 
@@ -137,21 +139,23 @@ FROM cte AS cte1
 JOIN cte AS cte2 USING (gender)
 WHERE cte1.enrollment_type = "Standard"
 AND cte2.enrollment_type = "2018 Promotion")
-SELECT gender,cte3.standard,CONCAT(ROUND(cte3.standard/(cte3.standard+cte3.promotion)*100,2),"%") AS percentage_standard,
-cte3.promotion, CONCAT(ROUND(cte3.promotion/(cte3.standard+cte3.promotion)*100,2),"%") AS percentage_promotion
+SELECT gender,ROUND(standard,2) AS standard,ROUND(cte3.promotion,2) AS promotion,
+ROUND(promotion-standard, 2) AS variance,CONCAT(ROUND((promotion-standard)/standard*100,2),"%") AS percantage_variance
 FROM cte3
-ORDER BY percentage_promotion DESC
+ORDER BY CONCAT(ROUND((promotion-standard)/standard*100,2),"%") DESC
 ```
-![image](https://github.com/user-attachments/assets/48100b42-eb48-4041-b86d-f06a896bd51d)
+![image](https://github.com/user-attachments/assets/b3446fcf-e602-497b-af82-c3f5a85b3038)
 
 * __Analysis__
 
-  The analysis of the promotion results, segmented by gender, reveals a minimal difference of only 0.16% between male and female participants.
+  The analysis of the promotion results, segmented by gender, reveals significant growth, and the demographics of male is more successful than female.
 
  * __By Education__
 ```bigquery
 WITH cte AS (SELECT education,enrollment_type,SUM(CLV) AS total_transaction
-FROM `Airline_Loyalty_Program.airline_loyalty_history`
+FROM 
+(SELECT * FROM`Airline_Loyalty_Program.airline_loyalty_program_date`
+WHERE enrollment_date BETWEEN '2017-02-01' AND '2017-04-01' OR enrollment_date BETWEEN '2018-02-01'AND '2018-04-01')
 GROUP BY education,enrollment_type
 ORDER BY education,total_transaction),
 cte3 AS (SELECT cte1.education, 
@@ -161,8 +165,36 @@ FROM cte AS cte1
 JOIN cte AS cte2 USING (education)
 WHERE cte1.enrollment_type = "Standard"
 AND cte2.enrollment_type = "2018 Promotion")
-SELECT education,cte3.standard,CONCAT(ROUND(cte3.standard/(cte3.standard+cte3.promotion)*100,2),"%") AS percentage_standard,
-cte3.promotion, CONCAT(ROUND(cte3.promotion/(cte3.standard+cte3.promotion)*100,2),"%") AS percentage_promotion
+SELECT education,ROUND(standard,2) AS standard,ROUND(cte3.promotion,2) AS promotion,
+ROUND(promotion-standard, 2) AS variance,CONCAT(ROUND((promotion-standard)/standard*100,2),"%") AS percantage_variance
 FROM cte3
-ORDER BY percentage_promotion DESC
+ORDER BY CONCAT(ROUND((promotion-standard)/standard*100,2),"%") DESC
 ```
+![image](https://github.com/user-attachments/assets/f0814477-4cec-4765-aabb-67ca33873443)
+
+* __Analysis__
+  This promotional campaign has been particularly successful among customers with a bachelor's degree, exhibiting an 87% increase compared to the same period last year. The next most successful demographic includes individuals with a high school or college degree. However, the campaign has shown limited or no impact on customers with master's or doctoral degrees, with some instances even reflecting a decline in engagement.
+
+* __By Marital Status__
+```bigquery
+WITH cte AS (SELECT marital_status,enrollment_type,SUM(CLV) AS total_transaction
+FROM 
+(SELECT * FROM`Airline_Loyalty_Program.airline_loyalty_program_date`
+WHERE enrollment_date BETWEEN '2017-02-01' AND '2017-04-01' OR enrollment_date BETWEEN '2018-02-01'AND '2018-04-01')
+GROUP BY marital_status,enrollment_type
+ORDER BY marital_status,total_transaction),
+cte3 AS (SELECT cte1.marital_status, 
+cte1.total_transaction AS standard,
+cte2.total_transaction AS promotion
+FROM cte AS cte1
+JOIN cte AS cte2 USING (marital_status)
+WHERE cte1.enrollment_type = "Standard"
+AND cte2.enrollment_type = "2018 Promotion")
+SELECT marital_status,ROUND(standard,2) AS standard,ROUND(cte3.promotion,2) AS promotion,
+ROUND(promotion-standard, 2) AS variance,CONCAT(ROUND((promotion-standard)/standard*100,2),"%") AS percantage_variance
+FROM cte3
+ORDER BY CONCAT(ROUND((promotion-standard)/standard*100,2),"%") DESC
+```
+![image](https://github.com/user-attachments/assets/570cf845-4206-4a50-982c-f33007d73846)
+
+* __Analysis__
