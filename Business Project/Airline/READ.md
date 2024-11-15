@@ -202,6 +202,10 @@ The promotional campaign was effective across all marital status categories, wit
 
 * __By Salary__
 For the salary, I segmented the figure into group and find the median salary.
+
+>[!NOTE]
+>There is some negative figure in the salary column. So, we also need to change this data to positive as well.
+
 ```bigquery
 WITH cte AS (
     SELECT IF(salary<0,0-salary,salary) AS salary, 
