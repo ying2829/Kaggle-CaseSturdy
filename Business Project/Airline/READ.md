@@ -218,3 +218,22 @@ FROM cte1
 GROUP BY range_salary
 ```
 Then I need to figure  
+
+```bigquery
+WITH cte AS (SELECT CAST(CONCAT(enrollment_year, '-', enrollment_month, '-01') AS DATE) AS enrollment_date,FLOOR(salary/10000)*10000 AS nearest_10_l ,
+IF(salary<0,0-salary,salary) AS salary,CEILING(salary/10000)*10000 AS nearest_10_h,CLV,enrollment_type
+    FROM (SELECT * FROM `Airline_Loyalty_Program.airline_loyalty_program_date` WHERE salary IS NOT NULL AND enrollment_date BETWEEN '2017-02-01' AND '2017-04-01' OR enrollment_date BETWEEN '2018-02-01'AND '2018-04-01')
+    ),
+cte1 AS (SELECT enrollment_date,enrollment_type,CONCAT(cte.nearest_10_l,"~",cte.nearest_10_h) AS range_salary,salary,CLV
+FROM cte),
+cte2 AS (SELECT range_salary, enrollment_type,ROUND(SUM(CLV),2) AS total_revenue
+FROM cte1
+GROUP BY range_salary,enrollment_type)
+SELECT range_salary, 
+cte2.total_revenue AS standard,
+cte3.total_revenue AS promotion
+FROM cte2 AS cte2
+JOIN cte2 AS cte3 USING (range_salary)
+WHERE cte2.enrollment_type = "Standard"
+AND cte2.enrollment_type = "2018 Promotion"
+```
