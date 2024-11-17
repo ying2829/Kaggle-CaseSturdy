@@ -208,14 +208,13 @@ For the salary, I segmented the figure into group and find the median salary.
 
 ```bigquery
 WITH cte AS (
-    SELECT IF(salary<0,0-salary,salary) AS salary, 
-    COUNT(salary) AS frequency
-    FROM `Airline_Loyalty_Program.airline_loyalty_program_date`
-    GROUP BY salary
-)
-SELECT salary,cte.frequency
-FROM cte
-WHERE frequency<=7
-ORDER BY salary
+    SELECT FLOOR(salary/10000)*10000 AS nearest_10_l ,IF(salary<0,0-salary,salary) AS salary,CEILING(salary/10000)*10000 AS nearest_10_h,CLV
+    FROM (SELECT * FROM `Airline_Loyalty_Program.airline_loyalty_program_date` WHERE salary IS NOT NULL)
+    ),
+cte1 AS (SELECT CONCAT(cte.nearest_10_l,"~",cte.nearest_10_h) AS range_salary,salary,CLV
+FROM cte)
+SELECT range_salary, ROUND(SUM(CLV),2) AS total_revenue
+FROM cte1
+GROUP BY range_salary
 ```
 Then I need to figure  
