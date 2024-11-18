@@ -201,23 +201,10 @@ ORDER BY CONCAT(ROUND((promotion-standard)/standard*100,2),"%") DESC
 The promotional campaign was effective across all marital status categories, with the divorced demographic showing the strongest growth in both percentage and absolute terms. Future campaigns may benefit from targeting this group more specifically, while continuing to nurture the engagement of both single and married customers.
 
 * __By Salary__
-For the salary, I segmented the figure into group and find the median salary.
+For the salary, I segmented the figure into every 10k as a group. And, since I put the salary into the range, it would be easier to observe the data from a macroscopic perspective. Then the same as all the analysis, I put this promotion into the comparsion of the same period last year.
 
 >[!NOTE]
->There is some negative figure in the salary column. So, we also need to change this data to positive as well.
-
-```bigquery
-WITH cte AS (
-    SELECT FLOOR(salary/10000)*10000 AS nearest_10_l ,IF(salary<0,0-salary,salary) AS salary,CEILING(salary/10000)*10000 AS nearest_10_h,CLV
-    FROM (SELECT * FROM `Airline_Loyalty_Program.airline_loyalty_program_date` WHERE salary IS NOT NULL)
-    ),
-cte1 AS (SELECT CONCAT(cte.nearest_10_l,"~",cte.nearest_10_h) AS range_salary,salary,CLV
-FROM cte)
-SELECT range_salary, ROUND(SUM(CLV),2) AS total_revenue
-FROM cte1
-GROUP BY range_salary
-```
-Then I need to figure  
+>There is some negative figure in the salary column. So, we also need to change this data to positive as well. 
 
 ```bigquery
 WITH cte AS (SELECT CAST(CONCAT(enrollment_year, '-', enrollment_month, '-01') AS DATE) AS enrollment_date,FLOOR(salary/10000)*10000 AS nearest_10_l ,
@@ -237,3 +224,7 @@ WHERE cte2.enrollment_type = "Standard"
 AND cte3.enrollment_type = "2018 Promotion"
 ```
 ![image](https://github.com/user-attachments/assets/939775ce-ad9f-4857-bf7d-0dbdd6f2f8fb)
+![Picture1](https://github.com/user-attachments/assets/b27831a7-ce72-4f5f-9ebf-d1623841798d)
+
+* __Analysis__
+From the chart, several key insights can be observed. Firstly, the salary range of 260k to 270k exhibits the highest percentage variance, followed by the range of 280k to 290k as the second highest. However, there is no clear trend indicating that higher earnings correlate with greater project success, despite the high variance observed in the lower salary ranges.
