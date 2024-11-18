@@ -230,3 +230,19 @@ AND cte3.enrollment_type = "2018 Promotion"
 From the chart, several key insights can be observed. Firstly, the salary range of 260k to 270k exhibits the highest percentage variance, followed by the range of 280k to 290k as the second highest. However, there is no clear trend indicating that higher earnings correlate with greater project success, despite the high variance observed in the lower salary ranges.
 
 3. What impact did the campaign have on booked flights during summer?
+```bigquery
+WITH cte AS (SELECT flight.year,SUM (total_flights) AS total_flights
+FROM 
+(SELECT * FROM`Airline_Loyalty_Program.airline_flight_activity` WHERE month IN (6,7,8)) AS flight
+JOIN `Airline_Loyalty_Program.airline_loyalty_program_date` AS loyalty USING (loyalty_number)
+GROUP BY year)
+SELECT 
+cte_2017.total_flights AS total_flight_2017,
+cte_2018.total_flights AS total_flights_2018,
+ROUND (cte_2018.total_flights-cte_2017.total_flights,2) AS variance,
+CONCAT(ROUND((cte_2018.total_flights - cte_2017.total_flights) / cte_2017.total_flights * 100, 2), "%") AS percentage_variance
+FROM cte AS cte_2017
+JOIN cte AS cte_2018 ON cte_2017.year = 2017 AND cte_2018.year = 2018
+```
+![image](https://github.com/user-attachments/assets/d98e52a1-aa99-4d23-979a-0b984c362353)
+
