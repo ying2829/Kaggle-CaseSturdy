@@ -229,11 +229,11 @@ FROM cte),
 cte2 AS (SELECT range_salary, enrollment_type,ROUND(SUM(CLV),2) AS total_revenue
 FROM cte1
 GROUP BY range_salary,enrollment_type)
-SELECT range_salary, 
-cte2.total_revenue AS standard,
-cte3.total_revenue AS promotion
+SELECT range_salary, cte2.total_revenue AS standard,cte3.total_revenue AS promotion, ROUND(cte3.total_revenue-cte2.total_revenue,2) AS variance,
+CONCAT(ROUND((cte3.total_revenue-cte2.total_revenue)/cte2.total_revenue*100,2),"%") AS percentage_variance
 FROM cte2 AS cte2
 JOIN cte2 AS cte3 USING (range_salary)
 WHERE cte2.enrollment_type = "Standard"
 AND cte3.enrollment_type = "2018 Promotion"
 ```
+![image](https://github.com/user-attachments/assets/939775ce-ad9f-4857-bf7d-0dbdd6f2f8fb)
