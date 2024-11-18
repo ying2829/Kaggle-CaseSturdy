@@ -235,5 +235,5 @@ cte3.total_revenue AS promotion
 FROM cte2 AS cte2
 JOIN cte2 AS cte3 USING (range_salary)
 WHERE cte2.enrollment_type = "Standard"
-AND cte2.enrollment_type = "2018 Promotion"
+AND cte3.enrollment_type = "2018 Promotion"
 ```
