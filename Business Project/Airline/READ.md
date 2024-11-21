@@ -257,5 +257,6 @@ JOIN `Airline_Loyalty_Program.airline_loyalty_program_date` AS loyalty USING (lo
 GROUP BY year,enrollment_type
 ```
 ![image](https://github.com/user-attachments/assets/d884c247-f3b4-40a1-b52a-5c0f8edc9fc1)
+
 The comparison between the total variance and the revenue generated during the promotion period indicates that the promotion accounted for approximately 75% of the observed variance.
   
