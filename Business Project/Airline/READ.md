@@ -262,11 +262,26 @@ The comparison between the total variance and the total booking flights generate
 
 * Revenue Impact
 ```bigquery
-SELECT enrollment_year,enrollment_type,SUM(total_flights) AS total_flight
-FROM  `Airline_Loyalty_Program.airline_flight_activity` 
-JOIN (SELECT * FROM `Airline_Loyalty_Program.airline_loyalty_program_date`WHERE enrollment_year IN (2017,2018) AND enrollment_month IN (6,7,8)) USING (loyalty_number)
-GROUP BY enrollment_year,enrollment_type
+WITH cte AS (SELECT year,ROUND (SUM(CLV),2) AS total_revenue
+FROM (SELECT * FROM `Airline_Loyalty_Program.airline_flight_activity` WHERE month IN (6,7,8))
+JOIN  `Airline_Loyalty_Program.airline_loyalty_program_date` USING (loyalty_number)
+GROUP BY year)
+SELECT 
+cte1.total_revenue AS total_revenue_2017,
+cte2.total_revenue AS total_revenue_2018,
+ROUND (cte2.total_revenue-cte1.total_revenue,2) AS variance,
+CONCAT(ROUND((cte2.total_revenue-cte1.total_revenue)/cte1.total_revenue*100,2),"%") AS percentage_variance
+FROM cte AS cte1
+JOIN cte AS cte2 ON cte1.year = 2017 AND cte2.year = 2018
 ```
-![image](https://github.com/user-attachments/assets/b976d096-ede0-4320-ab79-34b5004da678)
+![image](https://github.com/user-attachments/assets/7dc0d9af-4d57-477f-b39f-b9c6a4d57102)
+```bigquery
+SELECT year,enrollment_type,ROUND (SUM(CLV),2) AS total_revenue
+FROM (SELECT * FROM `Airline_Loyalty_Program.airline_flight_activity` WHERE year IN (2017,2018) AND month IN (6,7,8))
+JOIN  `Airline_Loyalty_Program.airline_loyalty_program_date` USING (loyalty_number)
+GROUP BY year,enrollment_type
+```
+![image](https://github.com/user-attachments/assets/fa49a43c-b3bf-45bb-ae7c-e41bfba3ff04)
 
-From the table, it seems that the promotion doesn't affect any profit in summer.
+From a profitability perspective, the promotion contributed to a 6.19% revenue growth compared to the previous summer. Additionally, since the 2017 revenue aligns closely with the 2018 revenue excluding the promotion, it can be inferred that the promotion directly accounted for the entirety of the observed revenue increase.
+
