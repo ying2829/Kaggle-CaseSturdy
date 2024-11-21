@@ -269,3 +269,4 @@ GROUP BY enrollment_year,enrollment_type
 ```
 ![image](https://github.com/user-attachments/assets/b976d096-ede0-4320-ab79-34b5004da678)
 
+From the table, it seems that the promotion doesn't affect any profit in summer.
