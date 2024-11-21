@@ -259,4 +259,13 @@ GROUP BY year,enrollment_type
 ![image](https://github.com/user-attachments/assets/d884c247-f3b4-40a1-b52a-5c0f8edc9fc1)
 
 The comparison between the total variance and the revenue generated during the promotion period indicates that the promotion accounted for approximately 75% of the observed variance.
-  
+
+* Total Booking Flights
+```bigquery
+SELECT enrollment_year,enrollment_type,SUM(total_flights) AS total_flight
+FROM  `Airline_Loyalty_Program.airline_flight_activity` 
+JOIN (SELECT * FROM `Airline_Loyalty_Program.airline_loyalty_program_date`WHERE enrollment_year IN (2017,2018) AND enrollment_month IN (6,7,8)) USING (loyalty_number)
+GROUP BY enrollment_year,enrollment_type
+```
+![image](https://github.com/user-attachments/assets/b976d096-ede0-4320-ab79-34b5004da678)
+
