@@ -42,9 +42,11 @@ ORDER BY category
 ```
 ![image](https://github.com/user-attachments/assets/b1c1543e-1553-447a-b79f-268a6435ce71)
 
-Therefore, the promtion achieve 5.84% revenue of the total reveue. However, if we divied the data by time, then it would be more clear about the resultof the promotion.
+Based on the data, the promotion contributed 5.84% of the total revenue. Additionally, we can categorize the standard promotion type into two phases—before and after the promotion—to analyze its impact from an advertising perspective. Notably, even after the promotion period, approximately 11% of customers opted to sign up for membership.
 
-## YOY ##
+However, it is important to note that this analysis cannot reliably identify trends due to the significant time gap between the standard plan and the promotion plan. To address this limitation, I strongly recommend adopting a comparative analysis method that evaluates the same time period with and without the promotion in place:
+
+__By YOY__
 
 * __The same period during the promotion__
  ```bigquery
