@@ -205,6 +205,7 @@ ORDER BY CONCAT(ROUND((promotion-standard)/standard*100,2),"%") DESC
 The promotional campaign was effective across all marital status categories, with the divorced demographic showing the strongest growth in both percentage and absolute terms. Future campaigns may benefit from targeting this group more specifically, while continuing to nurture the engagement of both single and married customers.
 
 * __By Salary__
+
 For the salary, I segmented the figure into every 10k as a group. And, since I put the salary into the range, it would be easier to observe the data from a macroscopic perspective. Then the same as all the analysis, I put this promotion into the comparsion of the same period last year.
 
 >[!NOTE]
