@@ -1,12 +1,12 @@
  # Northern Lights Air
 [Data Source](https://www.mavenanalytics.io/data-playground?order=date_added%2Cdesc&page=4&pageSize=5)
 
-This is an analysis report for the __Northern Light Air__ . And this report we are going to answer the belowing:
+This is an analysis report for the 2018 promotion plan in the __Northern Light Air__ . And this report we are going to answer the belowing:
 1. What impact did the campaign have on loyalty program memberships (Gross/Net)?
 2. Was the campaign adpotion more successful for certain demographic of loyalty program?
 3. What impact did the campaign have on booked flights during summer?
 
-Also, this is the report which more focus on the query writing and analysis. I will also create a dashboard in Power BI and attach it to here for reference.
+Also, this is the report which more focus on the query writing and analysis. I will also create a PowerPoint report for reference. Please follow me more via LinkedIn.
 
 First of all, I use `rollup` function to know the total revenue of the CLV which is 133710161.32000037. And if we only observe the case in the surface, we can simply divided the reveue by `enrollment_type` which is standard and the 2018 promotion.
 ```bigquery
