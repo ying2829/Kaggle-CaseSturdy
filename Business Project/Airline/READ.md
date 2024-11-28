@@ -237,7 +237,7 @@ AND cte3.enrollment_type = "2018 Promotion"
 * __Analysis__
 From the chart, several key insights can be observed. Firstly, the salary range of 260k to 270k exhibits the highest percentage variance, followed by the range of 280k to 290k as the second highest. However, there is no clear trend indicating that higher earnings correlate with greater project success, despite the high variance observed in the lower salary ranges.
 
-## Promotion for summer time
+## Promotion within or witout summertime
 
 * Total Booking Flights
 ```bigquery
