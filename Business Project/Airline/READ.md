@@ -236,7 +236,7 @@ From the chart, several key insights can be observed. Firstly, the salary range 
 
 3. What impact did the campaign have on booked flights during summer?
 
-* Total Bokking Flights
+* Total Booking Flights
 ```bigquery
 WITH cte AS (SELECT flight.year,SUM (total_flights) AS total_flights
 FROM 
