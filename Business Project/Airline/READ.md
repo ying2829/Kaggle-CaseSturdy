@@ -8,7 +8,7 @@ This is an analysis report for the 2018 promotion plan in the __Northern Light A
 
 Also, this is the report which more focus on the query writing and analysis. I will also create a PowerPoint report for reference. Please follow me more via LinkedIn.
 
-## Promotion result analysis
+## Revenue Impact
 
 __By Promotion time__
 
@@ -100,7 +100,8 @@ FROM cte2
 
 Rather than using data segmented by pre- and post-promotion periods to assess the results of the loyalty program, I prefer to use a year-over-year (YOY) comparison. As shown in the first table, the promotion contributed 67.08% of the revenue compared to the same period last year. Furthermore, the program demonstrated significant advertising effectiveness, as evidenced by the 12.58% revenue generated after the promotion, attributed to continued membership enrollment.
 
-2. Was the campaign adoption more successful for certain demographics of loyalty members?
+## Other Category Impact
+
 At this part, if we just divied every data by within and without the promotion, it would be really hard to measure the result of the promotion. So, I suggested we can approach this via the same way which is compared the data in the same period but different year. Therefore, I create a table which combined the `enrollment year` and `enrollment month` together and put it into date data type so that I can filter the date easily.
 
 * __By Geography (`province`)__
@@ -236,7 +237,7 @@ AND cte3.enrollment_type = "2018 Promotion"
 * __Analysis__
 From the chart, several key insights can be observed. Firstly, the salary range of 260k to 270k exhibits the highest percentage variance, followed by the range of 280k to 290k as the second highest. However, there is no clear trend indicating that higher earnings correlate with greater project success, despite the high variance observed in the lower salary ranges.
 
-3. What impact did the campaign have on booked flights during summer?
+## Promotion for summer time
 
 * Total Booking Flights
 ```bigquery
