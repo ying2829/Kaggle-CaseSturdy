@@ -8,6 +8,8 @@ This is an analysis report for the 2018 promotion plan in the __Northern Light A
 
 Also, this is the report which more focus on the query writing and analysis. I will also create a PowerPoint report for reference. Please follow me more via LinkedIn.
 
+## Revenue Impact
+
 First of all, I use `rollup` function to know the total revenue of the CLV which is 133710161.32000037. And if we only observe the case in the surface, we can simply divided the reveue by `enrollment_type` which is standard and the 2018 promotion.
 ```bigquery
 SELECT enrollment_type,SUM (CLV) AS total_revenue
