@@ -38,3 +38,7 @@ FROM `Airline_satifcation.airline_passenger_satifaction`
 GROUP BY Type_of_Travel,Satisfaction
 ```
 ![image](https://github.com/user-attachments/assets/b76b2064-a214-4c5f-8aa4-45f82aed0de6)
+
+The major `type_of_travel` of the respendents is for business purpose which occupied 69.06% compared to 30.94% for the customers for the personal purpose. However, the customer for business purpose tends to have higher percentage of satifaction than the one for the personal purpose. 
+
+## Respendents demography
