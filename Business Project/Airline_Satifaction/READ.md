@@ -42,3 +42,13 @@ GROUP BY Type_of_Travel,Satisfaction
 The major `type_of_travel` of the respendents is for business purpose which occupied 69.06% compared to 30.94% for the customers for the personal purpose. However, the customer for business purpose tends to have higher percentage of satifaction than the one for the personal purpose. 
 
 ## Respendents demography
+
+* __Gender__
+```Bigquery
+SELECT Gender,COUNT(Gender) AS count_gender, CONCAT(ROUND(COUNT(Gender)/129880*100,2),"%") AS percentage_of_gender
+FROM `Airline_satifcation.airline_passenger_satifaction`
+GROUP BY Gender
+```
+![image](https://github.com/user-attachments/assets/bdb414ff-cc6b-4121-b46c-0afd6f27c147)
+* __Age Group__
+```Bigquery
