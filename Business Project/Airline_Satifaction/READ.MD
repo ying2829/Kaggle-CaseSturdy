@@ -16,3 +16,4 @@ SELECT Satisfaction,COUNT(Satisfaction) AS count_satifaction, CONCAT(ROUND(COUNT
 FROM `Airline_satifcation.airline_passenger_satifaction`
 GROUP BY Satisfaction
 ```
+ 
