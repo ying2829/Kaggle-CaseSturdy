@@ -74,3 +74,41 @@ ORDER BY age_range
 The analysis of the respondents indicates that the majority of participants are economy and business-class customers. Their age predominantly falls within the working-age range of 20 to 50 years. Additionally, the gender distribution is relatively balanced, with no significant disparity observed between male and female participants.
 
 ## Distance & customer perference
+
+* __By Class__
+```Bigquery
+WITH cte AS (SELECT *,Flight_Distance,
+CASE WHEN Flight_Distance<500 THEN "below_500"
+WHEN Flight_Distance BETWEEN 500 AND 1000 THEN "500~1000"
+WHEN Flight_Distance BETWEEN 1001 AND 2000 THEN "1001~2000"
+WHEN Flight_Distance BETWEEN 2001 AND 3000 THEN "2001~3000"
+WHEN Flight_Distance BETWEEN 3001 AND 4000 THEN "3001~4000"
+WHEN Flight_Distance BETWEEN 4001 AND 5000 THEN "4001~5000"
+END AS distance_range
+FROM `Airline_satifcation.airline_passenger_satifaction`)
+SELECT Class,distance_range, COUNT(distance_range) AS total_distance
+FROM cte
+GROUP BY Class,distance_range
+ORDER BY distance_range,Class
+```
+![image](https://github.com/user-attachments/assets/e1730d80-473e-47c6-a44a-4dd64f73b348)
+* __By Gender__
+```Bigquery
+WITH cte AS (SELECT *,Flight_Distance,
+CASE WHEN Flight_Distance<500 THEN "below_500"
+WHEN Flight_Distance BETWEEN 500 AND 1000 THEN "500~1000"
+WHEN Flight_Distance BETWEEN 1001 AND 2000 THEN "1001~2000"
+WHEN Flight_Distance BETWEEN 2001 AND 3000 THEN "2001~3000"
+WHEN Flight_Distance BETWEEN 3001 AND 4000 THEN "3001~4000"
+WHEN Flight_Distance BETWEEN 4001 AND 5000 THEN "4001~5000"
+END AS distance_range
+FROM `Airline_satifcation.airline_passenger_satifaction`)
+SELECT Gender,distance_range, COUNT(distance_range) AS total_distance
+FROM cte
+GROUP BY Gender,distance_range
+ORDER BY distance_range,Gender
+```
+![image](https://github.com/user-attachments/assets/043ee2d9-62aa-40b0-899f-935de8515f3e)
+
+
+
