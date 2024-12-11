@@ -59,3 +59,13 @@ GROUP BY Class
 ![image](https://github.com/user-attachments/assets/2db8dac4-b41e-4ef9-9ab8-a48cdd75f524)
 * __Age Group__
 ```Bigquery
+WITH cte AS (SELECT FLOOR(Age / 10) * 10 AS nearest_10_l,Age,CEILING(Age / 10) * 10 AS nearest_10_h
+FROM `Airline_satifcation.airline_passenger_satifaction`),
+cte1 AS (SELECT IF(nearest_10_l = nearest_10_h, nearest_10_l - 10, nearest_10_l) AS adjusted_nearest_10_l,Age,nearest_10_h
+FROM cte)
+SELECT CONCAT(adjusted_nearest_10_l," ~ ",nearest_10_h) AS age_range,COUNT(Age) AS count_age
+FROM cte1
+GROUP BY age_range
+ORDER BY age_range
+```
+![image](https://github.com/user-attachments/assets/91164bbb-ef56-48db-bfd9-9f530dbd8efa)
