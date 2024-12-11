@@ -63,9 +63,11 @@ WITH cte AS (SELECT FLOOR(Age / 10) * 10 AS nearest_10_l,Age,CEILING(Age / 10) *
 FROM `Airline_satifcation.airline_passenger_satifaction`),
 cte1 AS (SELECT IF(nearest_10_l = nearest_10_h, nearest_10_l - 10, nearest_10_l) AS adjusted_nearest_10_l,Age,nearest_10_h
 FROM cte)
-SELECT CONCAT(adjusted_nearest_10_l," ~ ",nearest_10_h) AS age_range,COUNT(Age) AS count_age
+SELECT CONCAT(adjusted_nearest_10_l," ~ ",nearest_10_h) AS age_range,COUNT(Age) AS count_age,
+CONCAT(ROUND(COUNT(Age)/129880*100,2),"%") AS percentage_of_age
 FROM cte1
 GROUP BY age_range
 ORDER BY age_range
 ```
-![image](https://github.com/user-attachments/assets/91164bbb-ef56-48db-bfd9-9f530dbd8efa)
+![image](https://github.com/user-attachments/assets/6c67038f-9fa4-4bf2-aa9a-4c41811f208a)
+
