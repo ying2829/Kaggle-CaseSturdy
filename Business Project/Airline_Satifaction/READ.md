@@ -50,5 +50,12 @@ FROM `Airline_satifcation.airline_passenger_satifaction`
 GROUP BY Gender
 ```
 ![image](https://github.com/user-attachments/assets/bdb414ff-cc6b-4121-b46c-0afd6f27c147)
+* __Class__
+```Bigquery
+SELECT Class,COUNT(Class) AS count_class,CONCAT(ROUND(COUNT(Class)/129880*100,2),"%") AS percentage_class
+FROM `Airline_satifcation.airline_passenger_satifaction`
+GROUP BY Class
+```
+![image](https://github.com/user-attachments/assets/2db8dac4-b41e-4ef9-9ab8-a48cdd75f524)
 * __Age Group__
 ```Bigquery
