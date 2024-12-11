@@ -71,3 +71,6 @@ ORDER BY age_range
 ```
 ![image](https://github.com/user-attachments/assets/6c67038f-9fa4-4bf2-aa9a-4c41811f208a)
 
+The analysis of the respondents indicates that the majority of participants are economy and business-class customers. Their age predominantly falls within the working-age range of 20 to 50 years. Additionally, the gender distribution is relatively balanced, with no significant disparity observed between male and female participants.
+
+## Distance & customer perference
