@@ -116,7 +116,14 @@ ORDER BY distance_range,Gender
 ```Bigquery
 WITH cte AS (SELECT ID, Gender,Age,Customer_Type,Type_of_Travel,Class,Flight_Distance,Departure_Delay,Arrival_Delay,
 Ease_of_Online_Booking+Check_in_Service+Online_Boarding+Gate_Location+On_board_Service+Seat_Comfort+Leg_Room_Service+Cleanliness+Food_and_Drink+In_flight_Service+In_flight_Wifi_Service+In_flight_Entertainment+Baggage_Handling AS total_grade,Satisfaction
-FROM `Airline_satifcation.airline_passenger_satisfaction`)
-SELECT
+FROM `Airline_satifcation.airline_passenger_satisfaction`),
+cte1 AS (SELECT cte.total_grade,satisfaction,COUNT(satisfaction) AS count_satisfaction
+FROM cte
+GROUP BY cte.total_grade,satisfaction)
+SELECT total_grade, IF(c.satisfaction="Satisfied",c.count_satisfaction,NULL) AS satisfied,IF(t.satisfaction="Neutral or Dissatisfied",t.count_satisfaction,NULL) AS neutral_or_dissatisfied
+FROM cte1 AS c
+JOIN cte1 AS t USING (total_grade)
+WHERE IF(c.satisfaction="Satisfied",c.count_satisfaction,NULL) IS NOT NULL AND IF(t.satisfaction="Neutral or Dissatisfied",t.count_satisfaction,NULL) IS NOT NULL
+ORDER BY c.total_grade
 ```
 
