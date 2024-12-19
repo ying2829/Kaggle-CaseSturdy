@@ -112,6 +112,7 @@ ORDER BY distance_range,Gender
 
 ## Key Factor affecting the satisfaction
 
+* __Total grade__ 
 ```Bigquery
 WITH cte AS (SELECT ID, Gender,Age,Customer_Type,Type_of_Travel,Class,Flight_Distance,Departure_Delay,Arrival_Delay,
 Ease_of_Online_Booking+Check_in_Service+Online_Boarding+Gate_Location+On_board_Service+Seat_Comfort+Leg_Room_Service+Cleanliness+Food_and_Drink+In_flight_Service+In_flight_Wifi_Service+In_flight_Entertainment+Baggage_Handling AS total_grade,Satisfaction
